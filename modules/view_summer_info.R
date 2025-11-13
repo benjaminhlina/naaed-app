@@ -37,12 +37,12 @@ summary_info_server <- function(id, con, main_input) {
     # ----- first create summary datsa -----
     summary_data <- reactive({
       table_name <- get_selected_table(main_input)
+
       if (is.null(table_name) || is.na(table_name)) {
-        cat("[DEBUG] table_name is NULL or NA! Cannot run query.\n")
+        cat("[DEBUG] table_name is NULL, Cannot run query.\n")
       } else {
         cat("[DEBUG] table_name from get_selected_table():", table_name, "\n")
       }
-      req(table_name)
 
       con_db <- if (inherits(con, "reactive")) con() else con
       # req(table_name)
