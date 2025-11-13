@@ -1,15 +1,11 @@
 # ---- load packages ----
 {
-  library(DBI)
   library(dplyr)
   library(DT)
   library(ggplot2)
   library(ggtext)
   library(leaflet)
   library(mapview)
-  library(RPostgres)
-  library(RPostgreSQL)
-  library(RSQLite)
   library(plotly)
   library(readr)
   library(sf)
@@ -19,33 +15,8 @@
 }
 
 
-lapply(list.files("modules", full.names = TRUE), source)
-# ----- create connection to database -----
-con <- DBI::dbConnect(RPostgres::Postgres(),
-                      dbname = "NAAED",
-                      host = "localhost",
-                      port = 5433,
-                      user = "postgres",
-                      password = rstudioapi::askForSecret("password"))
-# con_reactive <- reactiveVal(con)
-# ---- create renaming table ----
+lapply(list.files("modules", full.names = TRUE), source, local = FALSE)
 
-naming_conventions <- read_csv(here::here("data",
-                                          "app_naming_conventions.csv")) |>
-  mutate(
-    nice_names = case_when(
-      raw_names %in% "d13c" ~ "\U03B4<sup>13</sup>C",
-      raw_names %in% "d15n" ~ "\U03B4<sup>15</sup>N",
-      raw_names %in% "d34s" ~ "\U03B4<sup>34</sup>S",
-      .default = nice_names
-    )
-  )
-
-# print(naming_conventions, n = 50)
-
-# create named vectors
-nice_name_lookup <- setNames(naming_conventions$nice_names,
-                             naming_conventions$raw_names)
 # ---- create ui ----
 
 ui <- dashboardPage(
