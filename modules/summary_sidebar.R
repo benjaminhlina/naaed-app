@@ -100,6 +100,28 @@ summary_sidebar_server <- function(id, con, main_input) {
                            server = TRUE)
 
     })
+    # make this into a function that sidebar exports out
+    register_summary <- function(summary_info) {
+      observe({
+        df <- summary_info$summary_data()  # <- reactive from summary_info
+        output$download_summary <- downloadHandler(
+          filename = function() {
+            tbl <- get_selected_table(main_input)
+            paste0(tbl, "_summary_", Sys.Date(), ".xlsx")
+          },
+          content = function(file) {
+            req(df)
+            writexl::write_xlsx(df, file)
+          }
+        )
+
+        # toggle button
+        shinyjs::toggleState(session$ns("download_summary"),
+                             condition = !is.null(df) && nrow(df) > 0)
+      })
+    }
+
+    # ----- export what we need from the severer ----
     return(list(
       grouping_vars = reactive(input$summary_grouping_vars),
       waterbody_filter = reactive(input$summary_waterbody_filter),
