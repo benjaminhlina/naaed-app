@@ -214,28 +214,6 @@ server <- function(input, output, session) {
   # })
 
 
-  # ---- Download Summary Table ----
-  # output$download_summary <- downloadHandler(
-  #   # dynamicaly create file name
-  #   filename <- function() {
-  #     paste0(input$summary_table, "_summary.xlsx")
-  #   },
-  #   # dynamically grob properly fillterd data
-  #   content <- function(file) {
-  #     df <- filtered_summary()
-  #     req(df)
-  #     # if df has nothing download_summary button will not work
-  #     is_disabled <- is.null(df) || nrow(df) == 0
-  #
-  #     shinyjs::toggleState("download_summary",
-  #                          condition = !is_disabled)
-  #     # create workbook, add sheets and write and svae workbook
-  #     wb <- openxlsx::createWorkbook()
-  #     openxlsx::addWorksheet(wb, "Summary Data")
-  #     openxlsx::writeData(wb, "Summary Data", df)
-  #     openxlsx::saveWorkbook(wb, file, overwrite = TRUE)
-  #   }
-  # )
 }
 
 # render ui and serve together to create dashboard
