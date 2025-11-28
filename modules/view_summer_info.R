@@ -94,24 +94,27 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
 
     filtered_summary <- reactive({
 
-      df <- filtered_summary_df()  # Use the filtered data
+      df <- filtered_summary_df()
+      req(df)
 
+      summary_grouping_vars <- sidebar_vals$grouping_vars()
+      summary_numeric_cols  <- numeric_cols()
+      y_vals <- sidebar_vals$y_variable()
 
-      # ------ Dynamically group data -----
-      summary_grouping_vars <- input$summary_grouping_vars
-      summary_numeric_cols <- numeric_cols()
-      # Now calling the reactive expression
-      # Ensure numeric columns exist and remove ids
+      # req(length(summary_grouping_vars) > 0)
+      # req(input$summary_y_variable)
+      if (is.null(y_vals) || length(y_vals) == 0) {
+        # Return just the grouped counts
+        summary_df <- df %>%
+          group_by(across(all_of(summary_grouping_vars))) %>%
+          summarise(n = n(), .groups = "drop")
+        return(summary_df)
+      }
+
       summary_numeric_cols <- setdiff(summary_numeric_cols,
-                                      c("sample_id",
-                                        "source_id",
-                                        "cal_id",
-                                        "proxcomp_id",
-                                        "iso_id",
-                                        "Conversion Factor",
-                                        "Composite (n)"))
-      cat("[DEBUG] Grouping by:", paste(input$summary_grouping_vars, collapse = ", "), "\n")
-      cat("[DEBUG] Summarizing variables:", paste(input$summary_y_variable, collapse = ", "), "\n")
+                                      c("sample_id","source_id","cal_id",
+                                        "proxcomp_id","iso_id",
+                                        "Conversion Factor","Composite (n)"))
 
 
       # create dynamic groupings and summary round all values to 2 decimials
