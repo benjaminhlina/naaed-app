@@ -88,5 +88,11 @@ summary_sidebar_server <- function(id, con, main_input) {
                              server = TRUE)
 
     })
+    return(list(
+      grouping_vars = reactive(input$summary_grouping_vars),
+      waterbody_filter = reactive(input$summary_waterbody_filter),
+      species_filter = reactive(input$summary_species_filter),
+      y_variable = reactive(input$summary_y_variable)
+    ))
   })
 }
