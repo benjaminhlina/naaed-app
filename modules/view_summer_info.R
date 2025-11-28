@@ -28,7 +28,7 @@ view_summary_info_ui <- function(id) {
 }
 
 # ----- summmary server --------
-summary_info_server <- function(id, con, main_input) {
+summary_info_server <- function(id, con, main_input, sidebar_vals) {
   moduleServer(id, function(input, output, session) {
     # ---- errrors -----
     cat("[DEBUG] summary_info_server initialized for ID:", id, "\n")
@@ -72,6 +72,9 @@ summary_info_server <- function(id, con, main_input) {
     # # ---- Generate Summary Statistics with Dynamic Grouping -----
     filtered_summary_df <- reactive({
       df <- summary_data()
+      grouping_vars <- sidebar_vals$grouping_vars()
+      waterbody_f <- sidebar_vals$waterbody_filter()
+      species_f <- sidebar_vals$species_filter()
 
 
       req(df, input$summary_grouping_vars)
