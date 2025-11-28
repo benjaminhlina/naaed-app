@@ -76,6 +76,7 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
       waterbody_f <- sidebar_vals$waterbody_filter()
       species_f <- sidebar_vals$species_filter()
 
+      req(df, grouping_vars)
 
       req(df, input$summary_grouping_vars)
       # Apply filters - set ALL to no filter the data at all
