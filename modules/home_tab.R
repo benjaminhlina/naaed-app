@@ -35,8 +35,9 @@ home_tab_ui <- function(id) {
         tags$ul(
           tags$li("Data templates can be found at the following links."),
           tags$li("If you would like to contribute to this toolbox,
-                  please contact the NAAEDT manager at:
-                  benjamin.hlina@gmail.com."),
+                  please contact the NAAEDT manager at:",
+                  tags$a(href = "mailto:benjamin.hlina@gmail.com",
+                         "benjamin.hlina@gmail.com")),
           tags$li("Any questions can be directed to the NAAEDT
                   manager at: benjamin.hlina@gmail.com.")
         )
