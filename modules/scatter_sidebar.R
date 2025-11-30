@@ -102,12 +102,14 @@ scatter_sidebar_server <- function(id, con, main_input) {
     # we need grouping and hist variables we also need the function
     #
 
+
     return(list(
+      selected_table = reactive(input$scatter_plots),
       grouping_vars = reactive(input$scatter_grouping_vars),
       waterbody_filter = reactive(input$scatter_waterbody_filter),
+      species_filter = reactive(input$scatter_species_filter),
       y_choices = reactive(input$scatter_var),
-      x_choices = reactive(input$x_var),
-      register_plot = register_plot
+      x_choices = reactive(input$x_var)
     )
     )
   }
