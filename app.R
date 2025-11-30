@@ -84,6 +84,8 @@ server <- function(input, output, session) {
                       con,
                       main_input = input,
                       scatter_sidebar_vals = scatter_sidebar_vals)
+
+  # scatter_sidebar_vals$register_plot(scatter_plot)
 }
 
 # render ui and serve together to create dashboard
