@@ -71,29 +71,37 @@ scatter_sidebar_server <- function(id, con, main_input) {
                         selected = x_choices[1]
       )
 
+
     })
-    register_plot <- function(plot) {
-      observe({
-        # df <- summary_info$summary_data()  # reactive  from summary
-        # output$download_summary <- downloadHandler(
-        #   filename = function() {
-        #     tbl <- get_selected_table(main_input)
-        #     paste0(tbl, "_summary_", Sys.Date(), ".xlsx")
-        #   },
-        #   content = function(file) {
-        #     req(df)
-        #     writexl::write_xlsx(df, file)
-      }
-      )
-
-      # toggle button
-      shinyjs::toggleState(session$ns("download_plot"))
-    }
-
+    # register_plot <- function(plot) {
+    #   observe({
+    #     # Ensure the plot reactive is available
+    #     # req(plot())
+    #
+    #     # Set up the download handler
+    #     # if (is.null(output$download_plot)) {
+    #       output$download_plot <- downloadHandler(
+    #         filename = function() {
+    #           tbl <- get_selected_table(main_input)  # or another name for the plot
+    #           paste0(tbl, "_plot_", Sys.Date(), ".png")
+    #         },
+    #         content = function(file) {
+    #           ggsave(filename = file, plot = plot(), device = "png",
+    #                  width = 11, height = 8.5)
+    #         }
+    #       )
+    #     # }
+#
+#         # Enable the download button only if the plot exists
+#         shinyjs::toggleState(session$ns("download_plot"),
+#                              condition = !is.null(plot()))
+#         # shinyjs::enable(session$ns("download_plot"))
+#       })
+#       shinyjs::disable(session$ns("download_plot"))
+#     }
 
     # ----- export what we need from the severer ----
     # we need grouping and hist variables we also need the function
-    #
 
 
     return(list(
@@ -103,6 +111,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
       species_filter = reactive(input$scatter_species_filter),
       y_choices = reactive(input$scatter_var),
       x_choices = reactive(input$x_var)
+      # register_plot = register_plot
     )
     )
   }
