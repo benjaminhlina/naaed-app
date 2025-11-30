@@ -23,7 +23,7 @@ view_summary_info_ui <- function(id) {
 }
 
 # ----- summmary server --------
-summary_info_server <- function(id, con, main_input, sidebar_vals) {
+summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
   moduleServer(id, function(input, output, session) {
     # ---- errrors -----
     cat("[DEBUG] summary_info_server initialized for ID:", id, "\n")
@@ -67,9 +67,9 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
     # # ---- Generate Summary Statistics with Dynamic Grouping -----
     filtered_summary_df <- reactive({
       df <- summary_data()
-      grouping_vars <- sidebar_vals$grouping_vars()
-      waterbody_f <- sidebar_vals$waterbody_filter()
-      species_f <- sidebar_vals$species_filter()
+      grouping_vars <- summary_sidebar_vals$grouping_vars()
+      waterbody_f <- summary_sidebar_vals$waterbody_filter()
+      species_f <- summary_sidebar_vals$species_filter()
 
       req(df, grouping_vars)
 
@@ -92,9 +92,9 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
       df <- filtered_summary_df()
       req(df)
 
-      summary_grouping_vars <- sidebar_vals$grouping_vars()
+      summary_grouping_vars <- summary_sidebar_vals$grouping_vars()
       summary_numeric_cols  <- numeric_cols()
-      y_vals <- sidebar_vals$y_variable()
+      y_vals <- summary_sidebar_vals$y_variable()
 
 
       if (is.null(y_vals) || length(y_vals) == 0) {
@@ -160,11 +160,11 @@ summary_info_server <- function(id, con, main_input, sidebar_vals) {
       df <- filtered_summary_df()
 
       # Ensure the selected column exists in the raw data
-      var <- sidebar_vals$hist_vars()
+      var <- summary_sidebar_vals$hist_vars()
       req(df, nrow(df) > 0, vars)
       req(var %in% names(df))
 
-      species_f <- sidebar_vals$species_filter()
+      species_f <- summary_sidebar_vals$species_filter()
       # Remove NAs from the selected column
       df <- df %>%
         filter(!is.na(.data[[var]]))
