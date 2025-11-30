@@ -19,7 +19,9 @@ scatter_sidebar_ui <- function(id) {
       shiny::selectInput(ns("scatter_species_filter"),
                          "Select Species", choices = NULL),
       shiny::selectInput(ns("x_var"),
-                         "Select X Variable", choices = NULL)
+                         "Select X Variable", choices = NULL),
+      shiny::selectInput(ns("scatter_var"),
+                         "Select Y Variable", choices = NULL)
     )
   )
 }
