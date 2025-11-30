@@ -21,7 +21,10 @@ scatter_sidebar_ui <- function(id) {
       shiny::selectInput(ns("x_var"),
                          "Select X Variable", choices = NULL),
       shiny::selectInput(ns("scatter_var"),
-                         "Select Y Variable", choices = NULL)
+                         "Select Y Variable", choices = NULL),
+      shiny::downloadButton(ns("download_plot"),
+                            "Save Plot",
+                            class = "btn-primary")
     )
   )
 }
