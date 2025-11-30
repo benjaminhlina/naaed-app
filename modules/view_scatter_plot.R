@@ -21,8 +21,10 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     ns <- session$ns
 
     scatter_data <- reactive({
+      req(main_input$tabs == "scatter_plot")
 
       table_name <- scatter_sidebar_vals$selected_table()
+        req(table_name)
       # errors
       if (is.null(table_name) || is.na(table_name)) {
         cat("[DEBUG] table_name is NULL, Cannot run query.\n")
@@ -32,7 +34,8 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       # db connections
       con_db <- if (inherits(con, "reactive")) con() else con
       # ---- acctuat gert data =----
-      get_summary_data(con = con_db, table_name)
+      df <- get_summary_data(con = con_db, table_name)
+      df
     })
 
     observe({
