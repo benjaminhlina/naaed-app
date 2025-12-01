@@ -75,7 +75,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
                            choices = y_choices,
                            server = TRUE)
 
-    })
+    }, ignoreInit = FALSE)
     # ---- export what we need from the severer ----
     # we need grouping and hist variables we also need the function
 
