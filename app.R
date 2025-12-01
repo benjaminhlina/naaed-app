@@ -38,13 +38,13 @@ ui <- dashboardPage(
     ),
     useShinyjs(),
     # Modularized panels
-      conditionalPanel(
-    "input.tabs == 'summary_info'",
-    summary_sidebar_ui("summary_sidebar")
+    conditionalPanel(
+      "input.tabs == 'summary_info'",
+      summary_sidebar_ui("summary_sidebar")
     ),
     conditionalPanel(
       "input.tabs == 'scatter_plot'",
-    scatter_sidebar_ui("scatter_sidebar")
+      scatter_sidebar_ui("scatter_sidebar")
     )
   ),
   # ---- create display panes ----
@@ -69,10 +69,13 @@ server <- function(input, output, session) {
   upload_data_server("insert_data", con)
   # ----- summary table -----
   summary_sidebar_vals <- summary_sidebar_server("summary_sidebar", con,
-                                         main_input = input)
+                                                 main_input = input)
 
-  summary_info <- summary_info_server("summary_info", con, main_input = input,
-                      summary_sidebar_vals = summary_sidebar_vals)
+  summary_info <- summary_info_server(
+    "summary_info",
+    con,
+    main_input = input,
+    summary_sidebar_vals = summary_sidebar_vals)
 
   summary_sidebar_vals$register_summary(summary_info)
 
@@ -80,10 +83,11 @@ server <- function(input, output, session) {
                                                  con,
                                                  main_input = input)
 
-  scatter_plot <- scatter_plot_server("scatter_plot",
-                      con,
-                      main_input = input,
-                      scatter_sidebar_vals = scatter_sidebar_vals)
+  scatter_plot <- scatter_plot_server(
+    "scatter_plot",
+    con,
+    main_input = input,
+    scatter_sidebar_vals = scatter_sidebar_vals)
 }
 
 # render ui and serve together to create dashboard
