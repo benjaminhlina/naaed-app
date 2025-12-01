@@ -32,6 +32,9 @@ scatter_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
     observe({
       df <- get_summary_data(con, get_selected_table(main_input))
+      shinyjs::toggle(id = "scatter_ui",
+                      condition = main_input$tabs == "scatter_plot")
+    })
       grouping_choices <- get_good_groups(df)
       numeric_choices <- get_numeric_cols(df)
       req(df)
