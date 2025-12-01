@@ -157,3 +157,36 @@ get_table <- function(con, main_input) {
   )
 }
 
+# ----- make scater choices -----
+make_scatter_choices <- function(df, numeric_choices,
+                                 var_type = c("x", "y")) {
+  var_type <- match.arg(var_type)
+
+  # ----------- Build synthetic length choices -----------
+  length_types <- df %>%
+    dplyr::filter(!is.na(`Length (mm)`), !is.na(length_type)) %>%
+    dplyr::pull(length_type) %>%
+    unique()
+
+  length_choices <- setNames(
+    paste0("length_mm__", length_types),
+    paste0(stringr::str_to_title(length_types), " Length (mm)")
+  )
+
+  # ----------- X-variable rules -----------
+  if (var_type == "x") {
+    return(c(
+      length_choices,
+      "Weight"
+    ))
+  }
+
+  # ----------- Y-variable rules -----------
+  if (var_type == "y") {
+    numeric_clean <- numeric_choices[numeric_choices != "Length (mm)"]
+    return(c(
+      length_choices,
+      setNames(numeric_clean, numeric_clean)
+    ))
+  }
+}
