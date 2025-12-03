@@ -20,23 +20,7 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     # ---- namespaces
     ns <- session$ns
 
-    scatter_data <- reactive({
-      req(main_input$tabs == "scatter_plot")
 
-      table_name <- scatter_sidebar_vals$selected_table()
-      req(table_name)
-      # errors
-      if (is.null(table_name) || is.na(table_name)) {
-        cat("[DEBUG] table_name is NULL, Cannot run query.\n")
-      } else {
-        cat("[DEBUG] table_name from get_selected_table():", table_name, "\n")
-      }
-      # db connections
-      con_db <- if (inherits(con, "reactive")) con() else con
-      # ---- acctuat gert data =----
-      df <- get_summary_data(con = con_db, table_name)
-      df
-    })
 
     observe({
       cat("\n[DEBUG] scatter_data triggered\n")
@@ -156,6 +140,12 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
       }
       return(p)
     })
+    scatter_data <- create_summary_data(
+      con = con,
+      main_input = main_input,
+      tab = "scatter_plot",
+      table_name_reactive = scatter_sidebar_vals$selected_table
+    )
   }
   )
 }
