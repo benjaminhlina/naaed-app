@@ -23,26 +23,6 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
 
 
 
-    filtered_scatter_df <- reactive({
-      df <- scatter_data()
-      scatter_grouping_vars <- scatter_sidebar_vals$grouping_vars()
-      waterbody_f <- scatter_sidebar_vals$waterbody_filter()
-      species_f <- scatter_sidebar_vals$species_filter()
-
-      req(df, scatter_grouping_vars)
-
-      # Apply filters - set ALL to no filter the data at all
-      if (!(waterbody_f %in% "All")) {
-        df <- df %>%
-          filter(Waterbody == waterbody_f)
-      }
-      if (!(species_f %in% "All")) {
-        df <- df %>%
-          filter(`Common Name` == species_f)
-      }
-      return(df)
-
-    })
     output$scatter_plot <- renderPlot({
       #     # Get raw data (not summarized)
 
@@ -130,6 +110,9 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     )
     check_summary_data(scatter_data)
     numeric_cols <- create_numeric_col(data = scatter_data)
+    filtered_scatter_data <- create_filtered_data(
+      input_source = scatter_sidebar_vals,
+      data = scatter_data)
   }
   )
 }
