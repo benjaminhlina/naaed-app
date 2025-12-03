@@ -1,3 +1,30 @@
+check_dropdowns <- function(waterbody_choices,
+                            common_name_choices,
+                            grouping_choices,
+                            numeric_choices) {
+  cli::cli_alert_success("Updating dropdowns")
+  cli::cli_ul(c(
+    "Waterbody unique values: {length(waterbody_choices)}",
+    "Species unique values: {length(common_name_choices)}",
+    "Grouping choices: {paste(grouping_choices, collapse = ', ')}",
+    "Numeric choices: {paste(numeric_choices, collapse = ', ')}"
+  ))
+}
+
+check_input_source <- function(input_source_name, envir = parent.frame()) {
+  valid_sources <- c("summary_sidebar_vals", "scatter_sidebar_vals")
+
+  # Check if it's a valid name
+  if (length(input_source_name) != 1 || !input_source_name %in% valid_sources) {
+    cli::cli_abort(c(
+      "Invalid {.arg input_source_name} provided",
+      "x" = "You supplied: {.val {input_source_name}}",
+      "i" = "Must be one of: {.val {valid_sources}}"
+    ))
+  }
+
+  # DON'T check existence here - it might not exist yet at module initialization
+}
 
 # ---- check table name -----
 check_table_name <- function(table_name) {
