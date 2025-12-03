@@ -77,11 +77,11 @@ ui <- secure_app(
   tags_top = tags$div(
     tags$h2("North American Aquatic Energy Density Toolbox",
             style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"),
-    tags$img(
-      src = "https://via.placeholder.com/150x150.png?text=Logo", # Replace with your logo URL
-      width = 150,
-      style = "display: block; margin: 0 auto 20px auto;"
-    )
+    # tags$img(
+    #   src = "https://via.placeholder.com/150x150.png?text=Logo", # Replace with your logo URL
+    #   width = 150,
+    #   style = "display: block; margin: 0 auto 20px auto;"
+    # )
   ),
 
   tags_bottom = tags$div(
