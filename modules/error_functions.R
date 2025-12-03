@@ -49,26 +49,26 @@ check_tab_name <- function(tab) {
 # ---- ehck if summary data is being triggered ----
 check_summary_data <- function() {
   observe({
-  # tell me what is being triggered
-  cli::cli_alert_success("summary_data triggered")
+    # tell me what is being triggered
+    cli::cli_alert_success("summary_data triggered")
 
-  # if try is false
-  df <- try(summary_data(),
-            silent = TRUE)
+    # if try is false
+    df <- try(summary_data(),
+              silent = TRUE)
 
-  if (inherits(df, "try-error")) {
-    cli::cli_alert_danger("summary_data() failed completely")
-  } else if ("Message" %in% names(df)) {
-    cli::cli_alert_danger(
-      "get_summary_data() returned error message: {.val {df$Message[1]}}")
-  } else {
-    cli::cli_alert_success(
-      "summary_data() rows: {.val {nrow(df)}}, cols: {.val {ncol(df)}}")
-    cli::cli_alert_info("Column names:")
+    if (inherits(df, "try-error")) {
+      cli::cli_alert_danger("summary_data() failed completely")
+    } else if ("Message" %in% names(df)) {
+      cli::cli_alert_danger(
+        "get_summary_data() returned error message: {.val {df$Message[1]}}")
+    } else {
+      cli::cli_alert_success(
+        "summary_data() rows: {.val {nrow(df)}}, cols: {.val {ncol(df)}}")
+      cli::cli_alert_info("Column names:")
 
-  }
-  # cli::cli_ul(names(df))  # Bulleted list
-  # # or
-  cli::cli_text("{.field {sort(names(df))}}")  # Inline with field styling
-})
+    }
+    # cli::cli_ul(names(df))  # Bulleted list
+    # # or
+    cli::cli_text("{.field {sort(names(df))}}")  # Inline with field styling
+  })
 }
