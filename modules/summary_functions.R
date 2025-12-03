@@ -2,7 +2,12 @@
 # ---- create fileted summary ----
 create_filtered_data <- function(input_source,
                                  data) {
+
   reactive({
+
+
+    df <- data()
+
     grouping_vars <- input_source$grouping_vars()
     waterbody_f <- input_source$waterbody_filter()
     species_f <- input_source$species_filter()

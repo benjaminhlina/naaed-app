@@ -25,29 +25,54 @@ display_hist <- function(data,
   output[[output_id]] <- renderPlot({
     # Get raw data (not summarized)
     df <- data()
-
+    req(df, nrow(df) > 0)
     # Ensure the selected column exists in the raw data
     var <- input_source$hist_vars()
-    req(df, nrow(df) > 0, var)
-    req(var %in% names(df))
 
+    # detect length-type UI choices
+    is_length <- grepl("length", var, ignore.case = TRUE) &&
+      !var %in% names(df)
 
-    if (var %in% unique(df$length_type)) {
-      var <- "Length (mm)"
+    if (is_length) {
+
+      # Convert UI label to the length_type in the data
+      length_type_val <- case_when(
+        grepl("fork", var, ignore.case = TRUE) ~ "fork",
+        grepl("total", var, ignore.case = TRUE) ~ "total",
+        grepl("standard", var, ignore.case = TRUE) ~ "standard",
+        TRUE ~ NA_character_
+      )
+      cli::cli_alert_info("UI var: {var}")
+      cli::cli_alert_info("Mapped length_type_val: {length_type_val}")
+      cli::cli_alert_info(
+        "Unique df$length_type: {paste(unique(df$length_type), collapse=', ')}")
+      req(!is.na(length_type_val))
+      req("Length (mm)" %in% names(df))
+      req("length_type" %in% names(df))
+
       df <- df |>
-        filter(length_type == var)
+        filter(length_type == length_type_val) |>
+        mutate(`Length (mm)` = suppressWarnings(as.numeric(`Length (mm)`))) |>
+        filter(!is.na(`Length (mm)`))
+
+      var <- "Length (mm)"
+      nice_label <- var
+
+
+
     } else {
-      var <- var
+
+      # ---- NON-LENGTH VARIABLES ----
+      req(var %in% names(df))
+      df <- df |>
+        mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
+        filter(!is.na(.data[[var]]))
+
+      nice_label <- get_nice_name(var)[[1]]
     }
 
-    req(var %in% names(df))
-
-    df <- df |>
-      mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
-      filter(!is.na(.data[[var]]))
-
-
     species_f <- input_source$species_filter()
+    waterbody_f <- input_source$waterbody_filter()
     # Remove NAs from the selected column
     # df <- df %>%
     #   filter(!is.na(.data[[var]]))
@@ -71,9 +96,12 @@ display_hist <- function(data,
         x = nice_label,
         y = "Frequency",
         title = paste("Histogram of", nice_label,
-                      "for", species_f)
+                      "for", species_f, "in", waterbody_f)
       )
     return(p)
   })
 
 }
+
+
+
