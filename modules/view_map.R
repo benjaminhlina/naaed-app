@@ -17,8 +17,8 @@ view_map_server <- function(id, con) {
 
       # Check if the table exists before proceeding
       if (!"tbl_location" %in% dbListTables(con)) {
-        return(leaflet::leaflet() %>%
-                 leaflet::addTiles() %>%
+        return(leaflet::leaflet() |>
+                 leaflet::addTiles() |>
                  leaflet::addMarkers(lng = 0,
                                      lat = 0,
                                      popup = "No Data"))
@@ -37,8 +37,8 @@ view_map_server <- function(id, con) {
 
       # if columns are missing return blank map with
       if (length(missing_cols) > 0) {
-        return(leaflet::leaflet() %>%
-                 leaflet::addTiles() %>%
+        return(leaflet::leaflet() |>
+                 leaflet::addTiles() |>
                  leaflet::addMarkers(lng = 0,
                                      lat = 0,
                                      popup = "Missing Required Columns"))
@@ -46,15 +46,15 @@ view_map_server <- function(id, con) {
 
       # Ensure data is not empty
       if (nrow(locs) == 0) {
-        return(leaflet::leaflet() %>%
-                 leaflet::addTiles() %>%
+        return(leaflet::leaflet() |>
+                 leaflet::addTiles() |>
                  leaflet::addMarkers(lng = 0,
                                      lat = 0,
                                      popup = "No Data Available"))
       }
 
       # remove locations that don't have lon
-      locs <- locs %>%
+      locs <- locs |>
         dplyr::filter(!(is.na(lon)))
 
       # Create popup content dynamically
@@ -66,8 +66,8 @@ view_map_server <- function(id, con) {
       )
 
       # Create map with popups
-      leaflet::leaflet(locs) %>%
-        leaflet::addTiles() %>%
+      leaflet::leaflet(locs) |>
+        leaflet::addTiles() |>
         leaflet::addCircleMarkers(
           lng = ~lon,
           lat = ~lat,
@@ -89,8 +89,8 @@ view_map_server <- function(id, con) {
 
       # --- Check if the table exists ---
       if (!"tbl_location" %in% DBI::dbListTables(con)) {
-        return(leaflet::leaflet() %>%
-                 leaflet::addTiles() %>%
+        return(leaflet::leaflet() |>
+                 leaflet::addTiles() |>
                  leaflet::addMarkers(lng = 0, lat = 0,
                                      popup = "No Data"))
       }
@@ -103,16 +103,16 @@ view_map_server <- function(id, con) {
                               colnames(locs))
 
       if (length(missing_cols) > 0) {
-        return(leaflet::leaflet() %>%
-                 leaflet::addTiles() %>%
+        return(leaflet::leaflet() |>
+                 leaflet::addTiles() |>
                  leaflet::addMarkers(lng = 0, lat = 0,
                                      popup = "Missing Required Columns"))
       }
 
       # --- Ensure data is not empty ---
       if (nrow(locs) == 0) {
-        return(leaflet::leaflet() %>%
-                 leaflet::addTiles() %>%
+        return(leaflet::leaflet() |>
+                 leaflet::addTiles() |>
                  leaflet::addMarkers(lng = 0, lat = 0,
                                      popup = "No Data Available"))
       }
@@ -129,8 +129,8 @@ view_map_server <- function(id, con) {
       )
 
       # --- Render map ---
-      leaflet::leaflet(locs) %>%
-        leaflet::addTiles() %>%
+      leaflet::leaflet(locs) |>
+        leaflet::addTiles() |>
         leaflet::addCircleMarkers(
           lng = ~lon, lat = ~lat,
           popup = ~popup_info,
