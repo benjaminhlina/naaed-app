@@ -36,183 +36,29 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
 
     check_summary_data()
 
-    numeric_cols <- reactive({
-      df <- summary_data()
-      req(df)
-      get_numeric_cols(df)
-    })
+    numeric_cols <- create_numeric_col(data = summary_data)
     # # ---- Generate Summary Statistics with Dynamic Grouping -----
-    filtered_summary_df <- reactive({
-      df <- summary_data()
-      grouping_vars <- summary_sidebar_vals$grouping_vars()
-      waterbody_f <- summary_sidebar_vals$waterbody_filter()
-      species_f <- summary_sidebar_vals$species_filter()
-
-      req(df, grouping_vars)
-
-      if (!(waterbody_f %in% "All")) {
-        df <- df %>%
-          filter(Waterbody == waterbody_f)
-      }
-
-      if (!(species_f %in% "All")) {
-        df <- df %>%
-          filter(`Common Name` == species_f)
-      }
-
-      return(df)
-    })
+    filtered_summary_data <- create_filtered_data(
+      input_source = summary_sidebar_vals,
+      data = summary_data)
 
 
-    filtered_summary <- reactive({
-
-      df <- filtered_summary_df()
-      req(df)
-
-      summary_grouping_vars <- summary_sidebar_vals$grouping_vars()
-      summary_numeric_cols  <- numeric_cols()
-      y_vals <- summary_sidebar_vals$y_variable()
-
-
-      if (is.null(y_vals) || length(y_vals) == 0) {
-        # Return just the grouped counts
-        summary_df <- df %>%
-          group_by(across(all_of(summary_grouping_vars))) %>%
-          summarise(n = n(), .groups = "drop")
-        return(summary_df)
-      }
-
-      summary_numeric_cols <- setdiff(summary_numeric_cols,
-                                      c("sample_id","source_id","cal_id",
-                                        "proxcomp_id","iso_id",
-                                        "Conversion Factor","Composite (n)"))
-
-
-      if (nrow(df) == 0) return(df)
-
-      mapped_vars <- lapply(y_vals, function(v)
-        fix_var_generic(df, v, get_nice_name))
-
-      for (m in mapped_vars) {
-        df <- m$df
-      }
-
-      # df <- Reduce(function(d1, d2)
-      #   dplyr::intersect(d1, d2), lapply(mapped_vars, `[[`, "df"))
-
-      vars_to_summarise <- unique(sapply(mapped_vars, `[[`, "var"))
-      # vars_to_summarise <- intersect(y_vals, summary_numeric_cols)
-
-      req(length(vars_to_summarise) > 0)
-
-
-
-      summary_df <- df %>%
-        group_by(across(all_of(summary_grouping_vars))) %>%
-        summarise(
-          n = n(),
-          across(
-            all_of(vars_to_summarise),
-            list(mean = ~ mean(.x, na.rm = TRUE),
-                 sd = ~ sd(.x, na.rm = TRUE)),
-            .names = "{.col} ({.fn})"
-          ),
-          .groups = "drop"
-        ) %>%
-        mutate(across(where(is.numeric), ~ round(.x, 2)))
-
-
-      nice_labels <- sapply(mapped_vars, `[[`, "var_label")
-
-      for (i in seq_along(vars_to_summarise)) {
-        summary_df <- summary_df %>%
-          rename_with(~ gsub(vars_to_summarise[i],
-                             nice_labels[i], .x, fixed = TRUE),
-                      starts_with(vars_to_summarise[i]))
-      }
-
-
-      return(summary_df)
-    })
+    mean_summary_data <- create_mean_data(input_source = summary_sidebar_vals,
+                                          data = filtered_summary_data,
+                                          numeric_cols = numeric_cols)
 
 
     #  ----- Render Summary Table -----
-    output$summary_table_output <- renderDT({
-      req(filtered_summary())
-      df <- filtered_summary()
-      # if there is nothing in df print no data available
-      if (is.null(df) || nrow(df) == 0) {
-        return(datatable(data.frame(Message = "No data available"),
-                         escape = FALSE))
-      }
-      # colnames(df) <- get_nice_name(colnames(df))
-
-      datatable(df,
-                options = list(pageLength = 10,
-                               scrollX = TRUE
-
-                               # autoWidth = TRUE
-                ), escape = FALSE)
-    })
+    display_table(data = mean_summary_data, output)
 
     # # ---- add in histogram ----
-    output$summary_histogram <- renderPlot({
-      # Get raw data (not summarized)
-      df <- filtered_summary_df()
-
-      # Ensure the selected column exists in the raw data
-      var <- summary_sidebar_vals$hist_vars()
-      req(df, nrow(df) > 0, var)
-      req(var %in% names(df))
-
-
-      if (var %in% unique(df$length_type)) {
-        var <- "Length (mm)"
-        df <- df %>%
-          filter(length_type == var)
-      } else {
-        var <- var
-      }
-
-      req(var %in% names(df))
-
-      df <- df %>%
-        mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) %>%
-        filter(!is.na(.data[[var]]))
-
-
-      species_f <- summary_sidebar_vals$species_filter()
-      # Remove NAs from the selected column
-      # df <- df %>%
-      #   filter(!is.na(.data[[var]]))
-
-      nice_label <- get_nice_name(var)[[1]]
-
-      # Plot the histogram of the selected variable
-      p <- ggplot(data = df, aes(x = !!sym(var))) +
-        geom_histogram(fill = "#4DB6AC",
-                       color = "black") +
-        # facet_wrap(~ common_name) +
-        theme_bw(
-          base_size = 15
-        ) +
-        theme(
-          panel.grid = element_blank(),
-          plot.title = element_markdown(hjust = 0.5),
-          axis.title.x = element_markdown()
-        ) +
-        labs(
-          x = nice_label,
-          y = "Frequency",
-          title = paste("Histogram of", nice_label,
-                        "for", species_f)
-        )
-      return(p)
-    })
+    display_hist(data = filtered_summary_data,
+                 input_source = summary_sidebar_vals,
+                 output)
 
     # we need to return fileted summary to then use in donload
     return(list(
-      summary_data = filtered_summary
+      summary_data = mean_summary_data
     ))
 
   }
