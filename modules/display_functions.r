@@ -4,19 +4,17 @@ display_table <- function(data, output, output_id = "summary_table_output") {
   output[[output_id]] <- renderDT({
     req(data())
     df <- data()
-
     # if there is nothing in df print no data available
     if (is.null(df) || nrow(df) == 0) {
       return(datatable(data.frame(Message = "No data available"),
                        escape = FALSE))
     }
-    # display data if present
+
     datatable(df,
               options = list(pageLength = 10,
                              scrollX = TRUE
                              # autoWidth = TRUE
-              ),
-              escape = FALSE)
+              ), escape = FALSE)
   })
 }
 
