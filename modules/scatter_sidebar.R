@@ -44,32 +44,39 @@ scatter_sidebar_server <- function(id, con, main_input) {
       numeric_choices <- get_numeric_cols(df)
       req(df)
 
+      waterbody_choices <- unique(df$Waterbody) |>
+        sort()
+
+      species_choices <- unique(df$`Common Name`) |>
+                                sort()
       #       # Grouping Variables: Allow dynamic selection
       updateSelectInput(session, "scatter_grouping_vars",
                         choices = grouping_choices,
-                        # selected = c("Waterbody",
-                        #              "Common Name")
       )
 
       # Waterbody Drop-down
       updateSelectInput(session, "scatter_waterbody_filter",
-                        choices = c("All", sort(unique(df$Waterbody))),
+                        choices = c("All", waterbody_choices),
                         selected = "All")
 
       # Species Drop-down
       updateSelectInput(session, "scatter_species_filter",
-                        choices = c("All", sort(unique(df$`Common Name`))),
+                        choices = c("All", species_choices),
                         selected = "All")
 
 
-      x_choices <- make_scatter_choices(df, numeric_choices, "x")
+      x_choices <- make_scatter_choices(df, numeric_choices, "x") |>
+        sort()
+
+      x_choices_sel <- names(x_choices)[1]
 
       updateSelectInput(session, "x_var",
                         choices = x_choices,
-                        selected = names(x_choices)[1])
+                        selected = x_choices_sel)
 
       # Update scatter variable choices
-      y_choices <- make_scatter_choices(df, numeric_choices, "y")
+      y_choices <- make_scatter_choices(df, numeric_choices, "y") |>
+        sort()
 
       updateSelectizeInput(session, "scatter_var",
                            choices = y_choices,
