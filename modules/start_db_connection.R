@@ -9,6 +9,6 @@ con <- DBI::dbConnect(RPostgres::Postgres(),
                       dbname = "NAAED",
                       host = "localhost",
                       port = 5433,
-                      user = "postgres",
-                      password = askpass::askpass("Enter password:")
+                      user = Sys.getenv("POSTGRES_USER"),
+                      password = Sys.getenv("POSTGRES_PASSWORD")
                       )
