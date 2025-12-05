@@ -168,9 +168,10 @@ get_summary_data_dbplyr <- function(con, table_name, debug_sql = FALSE) {
 
   # Build lazy query
   df_db <- desired_tbl |>
-    left_join(sample_tbl, by = "sample_id") |>
-    left_join(length_tbl, by = "sample_id") |>
-    left_join(loc_tbl, by = "sample_id") |>
+    left_join(sample_tbl) |>
+    left_join(length_tbl ) |>
+    left_join(loc_tbl |>
+                select(-lon, -lat)) |>
     mutate(
       year = as.character(year),
       month = as.character(month),
