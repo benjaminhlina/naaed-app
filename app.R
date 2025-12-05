@@ -1,6 +1,7 @@
 # ---- load packages ----
 {
   library(dplyr)
+  library(dbplyr)
   library(DT)
   library(ggplot2)
   library(ggtext)
@@ -70,18 +71,19 @@ ui <- dashboardPage(
 ui <- secure_app(
   ui,
   enable_admin = FALSE,
-  theme = "flatly",  # Bootstrap theme: flatly, cerulean, cosmo, etc.
+  # Bootstrap flatly, cerulean, cosmo,
+  theme = "flatly",
   language = "en",
 
   # Customize the login page appearance
   tags_top = tags$div(
     tags$h2("North American Aquatic Energy Density Toolbox",
             style = "text-align: center; color: #2c3e50; margin-bottom: 20px;"),
-    # tags$img(
-    #   src = "https://via.placeholder.com/150x150.png?text=Logo", # Replace with your logo URL
-    #   width = 150,
-    #   style = "display: block; margin: 0 auto 20px auto;"
-    # )
+    tags$img(
+      src = "logo/glfc-logo.png",
+      width = 150,
+      style = "display: block; margin: 0 auto 20px auto;"
+    )
   ),
 
   tags_bottom = tags$div(
@@ -90,7 +92,7 @@ ui <- secure_app(
   ),
 
   # Customize button colors and text
-  choose_language = FALSE,  # Hide language selector
+  choose_language = FALSE,
   lan = list(
     en = list(
       title = "Please Authenticate",
@@ -114,14 +116,14 @@ server <- function(input, output, session) {
   summary_sidebar_vals <- summary_sidebar_server("summary_sidebar", con,
                                                  main_input = input)
 
-  summary_info <- summary_info_server(
-    "summary_info",
+  summary_info <- summary_info_server("summary_info",
     con,
     main_input = input,
     summary_sidebar_vals = summary_sidebar_vals)
 
   summary_sidebar_vals$register_summary(summary_info)
 
+  # ---- scatter plot -----
   scatter_sidebar_vals <- scatter_sidebar_server("scatter_sidebar",
                                                  con,
                                                  main_input = input)
@@ -131,6 +133,8 @@ server <- function(input, output, session) {
     con,
     main_input = input,
     scatter_sidebar_vals = scatter_sidebar_vals)
+
+  ram_tracker()
 }
 
 # render ui and serve together to create dashboard
