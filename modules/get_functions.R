@@ -198,9 +198,11 @@ get_summary_data_dbplyr <- function(con, table_name, debug_sql = FALSE) {
   names(df) <- get_nice_name(names(df), lookup = nice_name_lookup)
 
   df <- df[, !(names(df) %in% c("sample_id",
-                                "source_id", "cal_id",
+                                "source_id",
+                                "cal_id",
                                 "proxcomp_id",
-                                "iso_id"))]
+                                "iso_id",
+                                "len_id"))]
   # return the data
   return(df)
 }
