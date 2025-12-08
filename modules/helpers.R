@@ -36,7 +36,6 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
 
 # ----- make scater choices -----
 make_scatter_choices <- function(df, numeric_choices) {
-  var_type <- match.arg(var_type)
 
   # ----------- Build synthetic length choices -----------
   length_types <- df |>
