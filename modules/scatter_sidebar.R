@@ -20,8 +20,21 @@ scatter_sidebar_ui <- function(id) {
                            "Select Waterbody", choices = NULL),
         shiny::selectInput(ns("scatter_species_filter"),
                            "Select Species", choices = NULL),
-        shiny::selectInput(ns("x_var"),
-                           "Select X Variable", choices = NULL),
+        shiny::selectizeInput(ns("x_var"),
+                           "Select X Variable", choices = NULL,
+                           options = list(
+                             render = I("
+                             {
+            option: function(item, escape) {
+              return '<div>' + item.label + '</div>';
+            },
+            item: function(item, escape) {
+              return '<div>' + item.label + '</div>';
+            }
+          }"
+                             )
+                           )
+        ),
         shiny::selectizeInput(
           ns("scatter_var"),
           "Select Y Variable",
