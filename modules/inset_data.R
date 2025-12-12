@@ -44,7 +44,7 @@ upload_data_server <- function(id, con) {
       tryCatch({
         dbWriteTable(con,
                      "tbl_samples",
-                     tbl_sample,
+                     tbl_samples,
                      append = TRUE,
                      row.names = FALSE)
         dbWriteTable(con,
