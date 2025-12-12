@@ -1,8 +1,9 @@
 raw_names,nice_names
 pi_name,PI Name
-date_time,Date Time
+date,Date
 month,Month
-year,Year
+sample_year,Sample Year,
+publication_year, Publication Year
 common_name,Common Name
 scientific_name,Scientific Name
 genus,Genus
