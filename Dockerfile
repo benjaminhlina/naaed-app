@@ -30,33 +30,18 @@ RUN apt-get update && apt-get install -y \
     proj-data \
     && rm -rf /var/lib/apt/lists/*
 
-# Install R packages
-RUN R -e "install.packages(c( \
-    'codetools', \
-    'curl', \
-    'DBI', \
-    'dplyr', \
-    'DT', \
-    'gert', \
-    'ggplot2', \
-    'ggtext', \
-    'gh', \
-    'here', \
-    'httr2', \
-    'leaflet', \
-    'mapview', \
-    'openssl', \
-    'plotly', \
-    'Rcpp', \
-    'readr', \
-    'RPostgres', \
-    'RPostgreSQL', \
-    'sf', \
-    'shiny', \
-    'shinydashboard', \
-    'shinyjs', \
-    'shinymanager' \
-  ), repos='https://cran.rstudio.com/')"
+# Install pak for quicker install 
+RUN R -e "install.packages('pak', repos = 'https://cran.rstudio.com/')"
+
+# Install packages
+RUN R -e "pak::pkg_install(c(\ 
+    'DBI', 'dplyr','DT','ggplot2','ggtext', 'here', \
+    'plotly', 'readr','RPostgres','RPostgreSQL', \ 
+    'shiny', 'shinydashboard','shinyjs','shinymanager'\ 
+    ))"
+    
+# Install geospatial packages separately (they're larger/slower)
+RUN  R -e "pak::pkg_install(c('leaflet', 'mapview', 'sf'))"
 
 # Copy app files
 COPY app.R /srv/shiny-server/
