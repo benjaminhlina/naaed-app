@@ -57,7 +57,8 @@ COPY app.R /srv/shiny-server/
 COPY www /srv/shiny-server/www
 COPY data /srv/shiny-server/data
 COPY modules /srv/shiny-server/modules
-COPY shiny-server.conf /srv/shiny-server/shiny-server.conf
+COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
+
 
 RUN chown -R shiny:shiny /srv/shiny-server && \
     chmod -R 755 /srv/shiny-server
