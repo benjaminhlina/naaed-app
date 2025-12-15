@@ -52,6 +52,8 @@ RUN R -e "pak::pkg_install(c(\
 # Install geospatial packages separately (they're larger/slower)
 RUN  R -e "pak::pkg_install(c('leaflet', 'mapview', 'sf'))"
 
+# remove shiny-server template apps --- 
+RUN rm -rf /srv/shiny-server/*
 # Copy app files
 COPY app.R /srv/shiny-server/
 COPY www /srv/shiny-server/www
