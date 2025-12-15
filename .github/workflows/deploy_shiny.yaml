@@ -2,7 +2,7 @@ name: Deploy to AWS
 
 on:
   workflow_run:
-    workflows: ["Build and Push Docker Image to GHCR"]
+    workflows: ["Build Docker Image"]
     types:
       - completed
     branches:
