@@ -65,8 +65,8 @@ jobs:
               -e POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
               -e POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
               -e POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
-              -e SHINY_USER: ${{ secrets.SHINY_USER }} \
-              -e SHINY_PASSWORD: ${{ secrets.SHINY_PASSWORD }} \
+              -e SHINY_USER="${{ secrets.SHINY_USER }}" \
+              -e SHINY_PASSWORD="${{ secrets.SHINY_PASSWORD }}" \
               ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             
             # Clean up old images
