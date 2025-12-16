@@ -61,7 +61,7 @@ RUN R -e "install.packages('pak', repos='https://cran.rstudio.com/')"
 
 # Install remaining packages not available via apt using pak
 RUN R -e "pak::pkg_install(c('pryr', 'shinymanager', 'writexl', 'mapview'))"
-    
+
 # remove shiny-server template apps --- 
 RUN rm -rf /srv/shiny-server/*
 # Copy app files
@@ -76,7 +76,9 @@ RUN chown -R shiny:shiny /srv/shiny-server && \
     chmod -R 755 /srv/shiny-server
 
 # Expose port
-EXPOSE 3838
 
-# Run app
-CMD ["R", "-e", "shiny::runApp('/app', host='0.0.0.0', port=3838)"]
+COPY shiny_entry.sh /usr/local/bin/shiny_entry.sh
+RUN chmod +x /usr/local/bin/shiny_entry.sh
+
+EXPOSE 3838
+CMD ["/usr/local/bin/shiny_entry.sh"]
