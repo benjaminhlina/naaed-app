@@ -36,18 +36,31 @@ RUN apt-get update && apt-get install -y \
     pandoc \
     proj-bin \
     proj-data \
+    r-cran-cli \
+    r-cran-dbi \
+    r-cran-dplyr \
+    r-cran-dbplyr \
+    r-cran-dt \
+    r-cran-ggplot2 \
+    r-cran-ggtext \
+    r-cran-here \
+    r-cran-plotly \
+    r-cran-readr \
+    r-cran-readxl \
+    r-cran-rpostgres \
+    r-cran-shiny \
+    r-cran-shinydashboard \
+    r-cran-shinyjs \
+    r-cran-stringr \
+    r-cran-leaflet \
+    r-cran-sf \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pak for quicker install 
-RUN R -e "install.packages('pak', repos = 'https://cran.rstudio.com/')"
+# Install pak for remaining packages
+RUN R -e "install.packages('pak', repos='https://cran.rstudio.com/')"
 
-# Install packages
-RUN R -e "pak::pkg_install(c(\ 
-    'cli', 'DBI', 'dplyr', 'dbplyr', 'DT','ggplot2','ggtext', 'here', \
-    'plotly', 'pryr', 'readr', 'readxl', 'RPostgres','RPostgreSQL', \ 
-    'shiny', 'shinydashboard','shinyjs','shinymanager', \
-    'stringr', 'writexl'\ 
-    ))"
+# Install remaining packages not available via apt using pak
+RUN R -e "pak::pkg_install(c('pryr', 'shinymanager', 'writexl', 'mapview'))"
     
 # Install geospatial packages separately (they're larger/slower)
 RUN  R -e "pak::pkg_install(c('leaflet', 'mapview', 'sf'))"
