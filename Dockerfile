@@ -36,6 +36,19 @@ RUN apt-get update && apt-get install -y \
     pandoc \
     proj-bin \
     proj-data \
+    software-properties-common \
+    dirmngr \
+    gnupg \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Add R2U (R 4.5+) repository
+RUN wget -qO- https://packagemanager.posit.co/cran/keys/cran-archive-key.asc | gpg --dearmor | tee /usr/share/keyrings/cran-archive-keyring.gpg \
+    && add-apt-repository "deb [signed-by=/usr/share/keyrings/cran-archive-keyring.gpg] https://packagemanager.posit.co/cran/latest/ubuntu $(lsb_release -cs)-cran40/" \
+    && apt-get update
+
+# Install CRAN packages via R2U
+RUN apt-get install -y \
     r-cran-cli \
     r-cran-dbi \
     r-cran-dplyr \
@@ -55,6 +68,7 @@ RUN apt-get update && apt-get install -y \
     r-cran-leaflet \
     r-cran-sf \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Install pak for remaining packages
 RUN R -e "install.packages('pak', repos='https://cran.rstudio.com/')"
