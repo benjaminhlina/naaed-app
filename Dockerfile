@@ -62,17 +62,18 @@ RUN R -e "install.packages('pak', repos='https://cran.rstudio.com/')"
 # Install remaining packages not available via apt using pak
 RUN R -e "pak::pkg_install(c('pryr', 'shinymanager', 'writexl', 'mapview'))"
     
-# Install geospatial packages separately (they're larger/slower)
-RUN  R -e "pak::pkg_install(c('leaflet', 'mapview', 'sf'))"
-
-# set wd 
-WORKDIR /app
+# remove shiny-server template apps --- 
+RUN rm -rf /srv/shiny-server/*
 # Copy app files
-COPY app.R /app
-COPY www /app/www
-COPY data /app/data
-COPY modules /app/modules
+COPY app.R /srv/shiny-server/
+COPY www /srv/shiny-server/www
+COPY data /srv/shiny-server/data
+COPY modules /srv/shiny-server/modules
+COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
+
+RUN chown -R shiny:shiny /srv/shiny-server && \
+    chmod -R 755 /srv/shiny-server
 
 # Expose port
 EXPOSE 3838
