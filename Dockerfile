@@ -68,7 +68,7 @@ RUN chown -R shiny:shiny /srv/shiny-server && \
 # Expose port
 
 COPY shiny_entry.sh /usr/local/bin/shiny_entry.sh
-RUN chmod +x /usr/local/bin/shiny_entry.sh
+RUN chmod 755 /usr/local/bin/shiny_entry.sh
 
 EXPOSE 3838
 CMD ["/usr/local/bin/shiny_entry.sh"]
