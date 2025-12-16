@@ -1,4 +1,4 @@
-FROM rocker/shiny:latest
+FROM rocker/r2u:latest
 
 # https://specs.opencontainers.org/image-spec/annotations/
 LABEL \
