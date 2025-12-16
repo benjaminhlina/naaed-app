@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     libgeos-dev \
     libgdal-dev \
     libicu-dev \
-    libjpeg-dev \ 
+    libjpeg-dev \
     libmysqlclient-dev \
     libpng-dev \
     libpq-dev \
@@ -38,38 +38,36 @@ RUN apt-get update && apt-get install -y \
     proj-data \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pak for quicker install 
-RUN R -e "install.packages('pak', repos = 'https://cran.rstudio.com/')"
+# ---- Set working directory ----
+WORKDIR /srv/shiny-server
 
-# Install packages
-RUN R -e "pak::pkg_install(c(\ 
-    'cli', 'DBI', 'dplyr', 'dbplyr', 'DT','ggplot2','ggtext', 'here', \
-    'plotly', 'pryr', 'readr', 'readxl', 'RPostgres','RPostgreSQL', \ 
-    'shiny', 'shinydashboard','shinyjs','shinymanager', \
-    'stringr', 'writexl'\ 
-    ))"
-    
-# Install geospatial packages separately (they're larger/slower)
-RUN  R -e "pak::pkg_install(c('leaflet', 'mapview', 'sf'))"
+# ---- Copy renv files ----
+COPY renv.lock renv.lock
+COPY renv/ renv/
 
-# remove shiny-server template apps --- 
+# ---- Restore R packages ----
+ENV RENV_PATHS_CACHE=/renv/cache
+RUN R -e "renv::restore()"
+
+
+# ---- remove shiny-server template apps --- 
 RUN rm -rf /srv/shiny-server/*
 
 # Copy app files
-COPY app.R /srv/shiny-server/NAAED-App/
-COPY www /srv/shiny-server/NAAED-App/www
-COPY data /srv/shiny-server/NAAED-App/data
-COPY modules /srv/shiny-server/NAAED-App/modules
+COPY app.R ./NAAED-App/
+COPY www ./NAAED-App/www
+COPY data ./NAAED-App/data
+COPY modules ./NAAED-App/modules
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
-
+# ---- change file ownership and rew -----
 RUN chown -R shiny:shiny /srv/shiny-server && \
     chmod -R 755 /srv/shiny-server
 
-# Expose port
 
+# --- copy shiny_entry and change rew ---- 
 COPY shiny_entry.sh /usr/local/bin/shiny_entry.sh
 RUN chmod 755 /usr/local/bin/shiny_entry.sh
-
+# Expose port
 EXPOSE 3838
 CMD ["/usr/local/bin/shiny_entry.sh"]
