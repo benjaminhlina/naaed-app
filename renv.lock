@@ -5233,7 +5233,7 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.55",
+      "Version": "0.54",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Supporting Functions for Packages Maintained by 'Yihui Xie'",
@@ -5266,7 +5266,6 @@
         "magick",
         "yaml",
         "data.table",
-        "qs2",
         "qs"
       ],
       "License": "MIT + file LICENSE",
