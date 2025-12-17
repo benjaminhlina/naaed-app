@@ -43,7 +43,7 @@ RUN apt-get update && apt-get install -y \
 # RUN rm -rf /srv/shiny-server/*
 
 # ---- ops for got to install renv ---- 
-RUN R -e "install.packages('renv', repos = 'https://cran.rstudio.com')"
+RUN R -e "install.packages(c('renv', 'pak'), repos = 'https://cran.rstudio.com')"
 
 # # ---- Set working directory ----
 # WORKDIR /srv/shiny-server/NAAED-App/
