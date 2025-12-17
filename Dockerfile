@@ -46,10 +46,10 @@ RUN apt-get update && apt-get install -y \
 RUN R -e "install.packages(c('renv', 'pak'), repos = 'https://cran.rstudio.com')"
 
 # # ---- Set working directory ----
-# WORKDIR /srv/shiny-server/NAAED-App/
+WORKDIR /srv/shiny-server/NAAED-App/
 # ---- Copy renv files ----
-COPY renv.lock /srv/shiny-server/NAAED-App/renv.lock
-COPY renv/ /srv/shiny-server/NAAED-App/renv/
+COPY renv.lock renv.lock
+COPY renv/ renv/
 
 # ---- Restore R packages ----
 ENV RENV_PATHS_CACHE=/renv/cache
