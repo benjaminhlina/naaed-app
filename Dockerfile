@@ -56,10 +56,10 @@ RUN R -e "renv::restore()"
 RUN rm -rf /srv/shiny-server/*
 
 # Copy app files
-COPY app.R /NAAED-App/
-COPY www /NAAED-App/www
-COPY data /NAAED-App/data
-COPY modules /NAAED-App/modules
+COPY app.R ./NAAED-App/
+COPY www ./NAAED-App/www
+COPY data ./NAAED-App/data
+COPY modules ./NAAED-App/modules
 COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
 
 # ---- change file ownership and rew -----
