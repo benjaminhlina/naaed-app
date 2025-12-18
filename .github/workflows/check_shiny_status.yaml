@@ -1,21 +1,21 @@
-  name: Check App Status
-  
-  on:
+name: Check App Status
+
+on:
   workflow_run:
     workflows: ["Deploy to AWS"]
     types:
       - completed
   workflow_dispatch:
-  
-  env:
-    REGISTRY: ghcr.io
-    IMAGE_NAME: ${{ github.repository }}
-  
-  jobs:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
   check-shiny-status:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,7 +31,6 @@
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }} << 'EOF'
-
           set -e
 
           echo "Waiting for Shiny to initialize..."
@@ -73,7 +72,7 @@
 
           echo "Shiny app is healthy (logs + HTTP check passed)"
           EOF
-          
+
       - name: Cleanup SSH Key
         if: always()
         run: rm -f ~/.ssh/deploy_key
