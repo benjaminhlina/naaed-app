@@ -3,9 +3,10 @@ home_tab_ui <- function(id) {
 
   shinydashboard::tabItem(
     tabName = "home",
-    h2("Welcome to the North American Aquatic Energy Density Toolbox"),
+    h2("Welcome to the Aquatic Tissue Library for Analyses & Synthesis (ATLAS)"),
     p("This toolbox allows you to explore, visualize, and manage
-        energy density data for aquatic organisms throughout North America."),
+    energy density, proximate composition and stable isotope data
+    related to for fish and aquatic invertabrates throughout North America."),
     shiny::br(),
     shiny::fluidRow(
       shinydashboard::box(
