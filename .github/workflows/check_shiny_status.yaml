@@ -1,0 +1,71 @@
+  name: Check App Status
+  
+  on:
+  workflow_run:
+    workflows: ["Deploy to AWS"]
+    types:
+      - completed
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+  env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  
+  jobs:
+  check-shiny-status:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+
+    steps:
+      - name: Check Shiny app logs and HTTP status
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            ${{ secrets.AWS_SERVER_USER }}@${{ secrets.AWS_SERVER_HOST }} << 'EOF'
+
+          set -e
+
+          echo "Waiting for Shiny to initialize..."
+          sleep 15
+
+          echo "Checking container is running..."
+          docker ps | grep naaed-app
+
+          echo "Locating Shiny app logs..."
+          LOG_FILE=$(docker exec naaed-app \
+            sh -c "ls -t /var/log/shiny-server/NAAED-App-shiny-*.log 2>/dev/null | head -n 1")
+
+          if [ -z "$LOG_FILE" ]; then
+            echo "No Shiny app log file found"
+            exit 1
+          fi
+
+          echo "Using log file: $LOG_FILE"
+          echo "--------------------"
+          docker exec naaed-app tail -n 100 "$LOG_FILE"
+          echo "--------------------"
+
+          echo "Checking logs for fatal errors..."
+          if docker exec naaed-app grep -E "Error|Execution halted|exited with code|segfault" "$LOG_FILE"; then
+            echo "Shiny app error detected in logs"
+            exit 1
+          fi
+
+          echo "Checking HTTP status code..."
+          STATUS_CODE=$(docker exec naaed-app \
+            sh -c "curl -s -o /dev/null -w '%{http_code}' http://localhost:3838/NAAED-App/")
+
+          echo "HTTP status code: $STATUS_CODE"
+
+          if [ "$STATUS_CODE" -ne 200 ]; then
+            echo "Shiny app returned non-200 status"
+            exit 1
+          fi
+
+          echo "Shiny app is healthy (logs + HTTP check passed)"
+          EOF
+          
+      - name: Cleanup SSH Key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
