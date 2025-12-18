@@ -16,11 +16,11 @@ home_tab_ui <- function(id) {
         solidHeader = TRUE,
         shiny::p("Use the sidebar to:"),
         tags$ul(
-          tags$li("View and filter existing energy density data"),
           tags$li("Visualize sampling locations on a map"),
-          tags$li("Upload new energy density measurements"),
           tags$li("View summary statistic tables"),
-          tags$li("View visualizations of energy density data")
+          tags$li("View visualizations of energy density data"),
+          tags$li("View and filter your uploaded raw data"),
+          tags$li("Upload new data into the database")
         )
       ),
       shinydashboard::box(
