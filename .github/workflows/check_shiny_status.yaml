@@ -11,8 +11,8 @@
   workflow_dispatch:
   
   env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ${{ github.repository }}
   
   jobs:
   check-shiny-status:
@@ -29,7 +29,7 @@
           echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.AWS_SERVER_HOST }} >> ~/.ssh/known_hosts
-    steps:
+
       - name: Check Shiny app logs and HTTP status
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
