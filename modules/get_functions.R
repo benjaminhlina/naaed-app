@@ -1,3 +1,12 @@
+# ----- get COLUMN_MPA ------
+
+get_column_map <- function(con) {
+  tbl(con, "tbl_data_dictionary") |>
+    select(table_name, field_name)
+}
+
+
+
 # ---- get good groups -----
 get_good_groups <- function(df) {
   good_groups <- c(
