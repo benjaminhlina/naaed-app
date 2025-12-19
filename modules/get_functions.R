@@ -45,6 +45,13 @@ get_good_groups <- function(df) {
   return(groups)
 }
 
+# ----- simple function to get a tb use dbplyr -----
+#
+get_join_table <- function(df, table, con) {
+  df |>
+    left_join(tbl(con, table))
+}
+
 # ---- get length_vars ----
 get_length_vars <- function(df) {
   # Only keep non-NA length types
