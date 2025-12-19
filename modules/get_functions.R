@@ -166,6 +166,8 @@ get_summary_data <- function(con, table_name, debug_sql = FALSE) {
   # return the data
   return(df)
 }
+
+
 get_summary_data <- function(con, selected_vars, debug_sql = FALSE) {
 
   req(con, selected_vars)
@@ -201,3 +203,14 @@ get_summary_data <- function(con, selected_vars, debug_sql = FALSE) {
   }
 
   df
+}
+
+# ---- get teh tables we need to filter by based on what the user selects -----
+get_tables_needed <- function(con, vars) {
+
+  req(con, vars)
+  get_column_map(con) |>
+    filter(field_name %in% vars) |>
+    distinct(table_name) |>
+    pull(table_name)
+}
