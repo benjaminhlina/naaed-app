@@ -112,9 +112,9 @@ get_selected_table <- function(input) {
 
 
 
-get_summary_data <- function(con, selected_vars, debug_sql = FALSE) {
+get_summary_data <- function(con, selected_vars = NULL, debug_sql = FALSE) {
 
-  req(con, selected_vars)
+  req(con, is.null(selected_vars))
 
   cli::cli_inform(c(
     "v" = "Starting summary data query.",
@@ -125,15 +125,19 @@ get_summary_data <- function(con, selected_vars, debug_sql = FALSE) {
   df <- tbl(con, "tbl_samples")
 
   needed_tables <- setdiff(get_tables_needed(con = con,
-                                             vars = selected_vars), "tbl_samples")
+                                             vars = selected_vars),
+                           "tbl_samples")
 
-
-
+  if (!is.null(needed_tables)) {
   df <- needed_tables |>
     reduce(.init = df, ~ get_join_table(.x, .y, con))
 
   # Select only requested columns (plus keys if needed)
-  df <- df |> select(any_of(selected_vars))
+  df <- df |>
+    select(any_of(selected_vars))
+  } else {
+    df
+  }
 
   if (debug_sql) {
     message(dbplyr::sql_render(df))
