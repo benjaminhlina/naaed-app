@@ -4,11 +4,6 @@ summary_sidebar_ui <- function(id) {
   shiny::tagList(
     shiny::conditionalPanel(
       condition = "input.tabs == 'summary_info'",
-      shiny::selectInput(ns("summary_table"), "Select Table",
-                         choices = c(
-                           "Calorimetry" = "tbl_calorimetry",
-                           "Proximate Composition" = "tbl_proxcomp",
-                           "Isotopes" = "tbl_isotope")),
       shiny::selectInput(ns("summary_grouping_vars"),
                          "Select Grouping Variables",
                          choices = NULL, multiple = TRUE),
