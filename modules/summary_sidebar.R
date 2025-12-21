@@ -58,14 +58,23 @@ summary_sidebar_ui <- function(id) {
 summary_sidebar_server <- function(id, con, main_input) {
   moduleServer(id, function(input, output, session) {
 
-    summary_df <- create_summary_data(con, main_input)
+    summary_df <- reactive({
 
-    observe({
+      con_db <- if (inherits(con, "reactive")) con() else con
+      req(con_db)
+
+      get_summary_data(
+        con = con_db
+      )
+    })
+
+    observeEvent(summary_df(), {
       # get df
       df <- summary_df()
 
       # get grouping snad numerical values
       grouping_choices <- get_good_groups(df)
+
       numeric_choices <- get_numeric_cols(df)
 
       # remove Length (mm) from numerical choices
@@ -122,7 +131,7 @@ summary_sidebar_server <- function(id, con, main_input) {
                            choices = summary_choices,
                            server = TRUE)
 
-    })
+    }, ignoreInit = TRUE)
     # make this into a function that sidebar exports out
     register_summary <- function(summary_info) {
       observe({
