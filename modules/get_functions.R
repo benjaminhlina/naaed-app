@@ -126,10 +126,15 @@ get_summary_data <- function(con, selected_vars = NULL, debug_sql = FALSE) {
 
   req(con)
 
+  if (is.null(selected_vars)) {
+    selected_vars <- NULL
+  }
+
   cli::cli_inform(c(
     "v" = "Starting summary data query.",
     "•" = "Variables selected: {.val {selected_vars}}"
   ))
+
 
   # Always start from samples
   # --grab location
