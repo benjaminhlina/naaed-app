@@ -147,17 +147,21 @@ get_summary_data <- function(con, selected_vars = NULL, debug_sql = FALSE) {
       tbl_loc
     )
 
-  needed_tables <- setdiff(get_tables_needed(con = con,
-                                             vars = selected_vars),
-                           "tbl_samples")
+  if (!is.null(selected_vars)) {
+    needed_tables <- setdiff(get_tables_needed(con = con,
+                                               vars = selected_vars),
+                             "tbl_samples")
 
-  if (!is.null(needed_tables)) {
-  df <- needed_tables |>
-    reduce(.init = df, ~ get_join_table(.x, .y, con))
+    # if (!is.null(needed_tables)) {
+      df <- needed_tables |>
+        reduce(.init = df, ~ get_join_table(.x, .y, con))
 
-  # Select only requested columns (plus keys if needed)
-  df <- df |>
-    select(waterbody, scientific_name, any_of(selected_vars))
+      # Select only requested columns (plus keys if needed)
+      df <- df |>
+        select(waterbody,
+               scientific_name,
+               any_of(selected_vars))
+    # }
   } else {
     df
   }
