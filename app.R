@@ -74,6 +74,7 @@ ui <- secure_app(
   # Bootstrap flatly, cerulean, cosmo,
   theme = "flatly",
   language = "en",
+  timeout = 15.0,
 
   # Customize the login page appearance
   tags_top = tags$div(
