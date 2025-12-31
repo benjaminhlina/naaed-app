@@ -8,6 +8,7 @@
   library(leaflet)
   library(mapview)
   library(plotly)
+  library(purrr)
   library(readr)
   library(sf)
   library(shiny)
