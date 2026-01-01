@@ -14,9 +14,15 @@ get_data <- function(con, debug_sql = FALSE) {
   # ---- grab sampels
   df <- tbl(con, "tbl_samples")
 
+  # grab_+length
+  tbl_length <- tbl(con, "tbl_length")
+
   df <- df |>
     left_join(
       tbl_loc, by = "sample_id"
+    ) |>
+    left_join(
+      tbl_length, by = "sample_id"
     )
   if (debug_sql == TRUE) {
     cli::cli_alert_info(dbplyr::sql_render(df))
