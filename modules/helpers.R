@@ -22,7 +22,7 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
     req(var_raw %in% names(df))
     # Normal variable
     var <- var_raw
-    var_label <- get_nice_name(var)[[1]]
+    var_label <- convert_nice_name(var)[[1]]
   }
 
   list(
