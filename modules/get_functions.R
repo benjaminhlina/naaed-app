@@ -1,8 +1,7 @@
 # ----- get COLUMN_MPA ------
 
 get_column_map <- function(con) {
-    tbl(con, "tbl_data_dictionary")
-    # select(table_name, field_name)
+  tbl(con, "tbl_data_dictionary")
 }
 
 get_data <- function(con, debug_sql = FALSE) {
