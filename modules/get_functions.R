@@ -136,8 +136,8 @@ get_numeric_vars <- function(con) {
     dplyr::filter(
       field_class %in% c("integer", "numeric", "double")
     )  |>
-    distinct(field_name) |>
-    arrange(field_name) |>
+    dplyr::distinct(field_name) |>
+    dplyr::arrange(field_name) |>
     dplyr::pull(field_name)
 }
 
