@@ -115,9 +115,9 @@ get_nice_name <- function(cols, lookup = nice_name_lookup) {
     } else {
       col
     }
-  }))
-}
-
+  }
+  )
+  )
 }
 
 # ---- get numeric vars -----
