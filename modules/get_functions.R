@@ -182,14 +182,14 @@ get_summary_data <- function(con, selected_vars = NULL, debug_sql = FALSE) {
                              "tbl_samples")
 
     # if (!is.null(needed_tables)) {
-      df <- needed_tables |>
-        reduce(.init = df, ~ get_join_table(.x, .y, con))
+    df <- needed_tables |>
+      reduce(.init = df, ~ get_join_table(.x, .y, con))
 
-      # Select only requested columns (plus keys if needed)
-      df <- df |>
-        select(waterbody,
-               scientific_name,
-               any_of(selected_vars))
+    # Select only requested columns (plus keys if needed)
+    df <- df |>
+      select(waterbody,
+             scientific_name,
+             any_of(selected_vars))
     # }
   } else {
     df
