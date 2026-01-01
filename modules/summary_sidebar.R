@@ -76,12 +76,14 @@ summary_sidebar_server <- function(id, con, main_input) {
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
       # get df
-      df <- summary_df()
+      df <- sidebar_df()
+      req(df)
 
       # get grouping snad numerical values
       grouping_choices <- get_good_groups(df)
 
       numeric_choices <- get_numeric_cols(df)
+      grouping_choices <- get_groups(df)
 
       # remove Length (mm) from numerical choices
       numeric_choices <- setdiff(numeric_choices, "Length (mm)")
