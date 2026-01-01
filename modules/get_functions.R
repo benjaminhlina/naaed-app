@@ -5,7 +5,25 @@ get_column_map <- function(con) {
     # select(table_name, field_name)
 }
 
+get_data <- function(con, debug_sql = FALSE) {
 
+  req(con)
+
+  # Always start from samples
+  # --grab location
+  tbl_loc <- tbl(con, "tbl_location")
+  # ---- grab sampels
+  df <- tbl(con, "tbl_samples")
+
+  df <- df |>
+    left_join(
+      tbl_loc, by = "sample_id"
+    )
+  if (debug_sql == TRUE) {
+    cli::cli_alert_info(dbplyr::sql_render(df))
+  }
+  return(df)
+}
 
 # ---- get good groups -----
 get_good_groups <- function(df) {
