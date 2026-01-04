@@ -66,15 +66,19 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     filtered_summary_data <- create_filtered_data(
       input_source = summary_sidebar_vals,
       data = summary_data)
-
-
-    mean_summary_data <- create_mean_data(input_source = summary_sidebar_vals,
-                                          data = filtered_summary_data,
-                                          numeric_cols = numeric_cols)
-
-
+    #
+    #
+    mean_summary_data <- create_n_data(input_source = summary_sidebar_vals,
+                                       data = filtered_summary_data,
+                                       y_vars = y_vars)
+    #
+    observe({
+      cli::cli_alert_info(
+        "mean_summary_data() rows: {tryCatch(nrow(mean_summary_data()), error = function(e) 'not ready')}"
+      )
+    })
     #  ----- Render Summary Table -----
-    display_table(data = mean_summary_data, output)
+    display_table(data = mean_summary_data(), output)
 
     # # ---- add in histogram ----
     display_hist(data = filtered_summary_data,
