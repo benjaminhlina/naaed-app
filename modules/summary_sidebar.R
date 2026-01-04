@@ -73,6 +73,8 @@ summary_sidebar_server <- function(id, con, main_input) {
       return(df)
     })
 
+    exclusive_all_observer(input, session, "summary_waterbody_filter")
+    exclusive_all_observer(input, session, "summary_species_filter")
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
       # get df
