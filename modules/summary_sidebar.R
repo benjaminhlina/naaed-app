@@ -111,29 +111,28 @@ summary_sidebar_server <- function(id, con, main_input) {
                                          numeric_names),
                                 length_vars))
 
-
-      # make console talk about what it is doing
-      # summary_choices <- sort(c(setNames(numeric_choices,
-      #                                    numeric_choices),
-      #                           length_vars))
-
       waterbody_choices <- df |>
         distinct(waterbody) |>
         arrange(waterbody) |>
         pull(waterbody)
 
-      #
+      # species
       species_choices <-  df |>
         distinct(scientific_name) |>
         arrange(scientific_name) |>
         pull(scientific_name)
+
+      n_wb <- length(waterbody_choices)
+      n_sp <- length(species_choices)
+      grp <- paste(grouping_choices, collapse = ', ')
+      nc <- paste(summary_choices, collapse = ', ')
       # check_dropdowns()
       cli::cli_alert_success("Updating dropdowns")
       cli::cli_ul(c(
-        "Waterbody unique values: {length(waterbody_choices)}",
-        "Species unique values: {length(common_name_choices)}",
-        "Grouping choices: {paste(grouping_choices, collapse = ', ')}",
-        "Numeric choices: {paste(numeric_choices, collapse = ', ')}"
+        "Waterbody unique values: {.val {n_wb}}",
+        "Species unique values: {.val {n_sp}}",
+        "Grouping choices: {.val {grp}}",
+        "Numeric choices: {.val {nc}}"
       ))
       # Grouping Variables: Allow dynamic selection
 
