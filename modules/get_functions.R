@@ -34,44 +34,75 @@ get_data <- function(con, debug_sql = FALSE) {
 get_good_groups <- function(df) {
 
   good_groups <- c(
-    "PI Name",
-    "Month",
-    "Sample Year",
-    "Common Name",
-    "Scientific Name",
-    "Genus",
-    "Tribe",
-    "Subfamily",
-    "Family",
-    "Superfamily",
-    "Suborder",
-    "Order",
-    "Superorder",
-    "Class",
-    "Superclass",
-    "TSN code",
-    "Sex",
-    "Life Stage",
-    "Wild Lab",
-    "Age (yrs)",
-    "Composite",
-    "Tissue Type",
-    "Sampling Procedure",
-    "Treatment Description",
-    "Waterbody",
-    "Area",
-    "Site",
-    "Site Depth (m)"
+    "pi_name",
+    "month",
+    "sample_year",
+    "common_name",
+    "scientific_name",
+    "genus",
+    "tribe",
+    "subfamily",
+    "family",
+    "superfamily",
+    "suborder",
+    "order",
+    "superorder",
+    "class",
+    "superclass",
+    "tsn",
+    "sex",
+    "life_stage",
+    "wild_lab",
+    "age",
+    "composite",
+    "tissue_type",
+    "sample_procedure",
+    "trt_description",
+    "waterbody",
+    "area",
+    "site",
+    "site_depth"
   )
+
+  # good_groups <- c(
+  #   "PI Name",
+  #   "Month",
+  #   "Sample Year",
+  #   "Common Name",
+  #   "Scientific Name",
+  #   "Genus",
+  #   "Tribe",
+  #   "Subfamily",
+  #   "Family",
+  #   "Superfamily",
+  #   "Suborder",
+  #   "Order",
+  #   "Superorder",
+  #   "Class",
+  #   "Superclass",
+  #   "TSN code",
+  #   "Sex",
+  #   "Life Stage",
+  #   "Wild Lab",
+  #   "Age (yrs)",
+  #   "Composite",
+  #   "Tissue Type",
+  #   "Sampling Procedure",
+  #   "Treatment Description",
+  #   "Waterbody",
+  #   "Area",
+  #   "Site",
+  #   "Site Depth (m)"
+  # )
 
   cols <- dplyr::tbl_vars(df) |>
     as.character()
 
-  convert_names <- convert_nice_name(cols)
+  # convert_names <- convert_nice_name(cols)
 
 
   # # Return only those that are in good_groups
-  groups <- sort(intersect(convert_names, good_groups))
+  groups <- sort(intersect(cols, good_groups))
 
   cli::cli_alert_info("Converted names: {.val {cols}}"
   )
