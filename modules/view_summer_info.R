@@ -52,13 +52,16 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     #
     #   summary_sidebar_vals$grouping_vars()
     # })
+
     summary_data <- create_summary_data(con = con,
                                         main_input = main_input,
-                                        tab = "summary_info")
+                                        input_source = summary_sidebar_vals,
+                                        tab = "summary_info",
+                                        vars = y_vars)
 
     check_summary_data(summary_data)
 
-    numeric_cols <- create_numeric_col(data = summary_data)
+
     # # ---- Generate Summary Statistics with Dynamic Grouping -----
     filtered_summary_data <- create_filtered_data(
       input_source = summary_sidebar_vals,
