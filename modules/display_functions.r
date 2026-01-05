@@ -50,7 +50,7 @@ display_hist <- function(data,
         mutate(across(all_of(var), ~ suppressWarnings(as.numeric(.)))) |>
         filter(!is.na(.data[[var]]))
 
-      nice_label <- convet_nice_names(var)[[1]]
+      nice_label <- convert_nice_name(var)[[1]]
     }
 
     species_f <- input_source$species_filter()
