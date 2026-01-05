@@ -30,29 +30,6 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     # ---- namespaces -----
     ns <- session$ns
     # ----- first create summary data -----
-    # cli::cli_alert_info(
-    #   "summary_info_server: y_variable = {.val {summary_sidebar_vals$y_variable()}}"
-    # )
-    y_vars <- reactive({
-      cli::cli_inform("y_vars entered")
-      # req(summary_sidebar_vals$y_variable())
-
-      val <- summary_sidebar_vals$y_variable()
-
-      cli::cli_ul(c(
-        "y_variable value: {if (is.null(val)) 'NULL' else paste(val, collapse = ', ')}",
-        "length(y_variable): {length(val)}"
-      ))
-      req(val)
-
-      val
-    })
-    # group_vars <- reactive({
-    #   req(summary_sidebar_vals$grouping_vars())
-    #
-    #   summary_sidebar_vals$grouping_vars()
-    # })
-
     summary_data <- create_summary_data(con = con,
                                         main_input = main_input,
                                         input_source = summary_sidebar_vals,
