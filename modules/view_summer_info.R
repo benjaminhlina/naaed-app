@@ -26,6 +26,12 @@ view_summary_info_ui <- function(id) {
 # ----- summmary server --------
 summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
   moduleServer(id, function(input, output, session) {
+    observeEvent(main_input$tabs, {
+      shinyjs::toggle(
+        id = "summary_ui",
+        condition = main_input$tabs == "summary_info"
+      )
+    }, ignoreInit = TRUE)
 
     # ---- namespaces -----
     ns <- session$ns
