@@ -26,6 +26,24 @@ check_input_source <- function(input_source_name, envir = parent.frame()) {
   # DON'T check existence here - it might not exist yet at module initialization
 }
 
+
+check_mean_data <- function(df,
+                            summary_grouping_vars,
+                            y_vals) {
+  cli::cli_h2("create_mean_data() diagnostics")
+
+  cli::cli_ul(c(
+    "df class: {paste(class(df), collapse = ', ')}",
+    "df rows (if local): {tryCatch(nrow(df), error = function(e) 'lazy tbl')}",
+    "grouping_vars: {if (is.null(summary_grouping_vars)) 'NULL' else paste(summary_grouping_vars, collapse = ', ')}",
+    "length(grouping_vars): {length(summary_grouping_vars)}",
+    "y_vals: {if (is.null(y_vals)) 'NULL' else paste(y_vals, collapse = ', ')}",
+    "length(y_vals): {length(y_vals)}"
+  ))
+
+  cli::cli_rule()
+}
+
 # ---- check table name -----
 check_table_name <- function(table_name) {
 
