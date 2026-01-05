@@ -19,7 +19,7 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
 
   } else {
 
-    req(var_raw %in% names(df))
+    req(var_raw %in% colnames(df))
     # Normal variable
     var <- var_raw
     var_label <- convert_nice_name(var)[[1]]
