@@ -156,6 +156,7 @@ create_summary_data <- function(con,
     gv <- input_source$grouping_vars
 
     group_vars <- if(inherits(gv, "reactive")) gv() else gv
+    req(con_db, group_vars)
 
     # ---- acctuat gert data =----
     df <- get_summary_data(con = con_db, selected_vars = selected_vars,
