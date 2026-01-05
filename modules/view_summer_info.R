@@ -41,28 +41,27 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
     filtered_summary_data <- create_filtered_data(
       input_source = summary_sidebar_vals,
       data = summary_data)
-    #
-    #
-    mean_summary_data <- create_n_data(input_source = summary_sidebar_vals,
-                                       data = filtered_summary_data,
-                                       y_vars = y_vars)
-    #
-    observe({
-      cli::cli_alert_info(
-        "mean_summary_data() rows: {tryCatch(nrow(mean_summary_data()), error = function(e) 'not ready')}"
-      )
-    })
+
+    # # ---- Generate Summary Statistics with Dynamic Grouping -----
+    summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
+                                        data = filtered_summary_data)
+    # n_data <- create_n_df(
+    #   con = con,
+    #   main_input = main_input,
+    #   input_source = summary_sidebar_vals,
+    #   tab = "summary_info"
+    #   )
     #  ----- Render Summary Table -----
-    display_table(data = mean_summary_data(), output)
+    display_table(data = summary_mean_df, output)
 
     # # ---- add in histogram ----
-    display_hist(data = filtered_summary_data,
-                 input_source = summary_sidebar_vals,
-                 output)
+    # display_hist(data = filtered_summary_data,
+    #              input_source = summary_sidebar_vals,
+    #              output)
 
     # we need to return fileted summary to then use in donload
     return(list(
-      summary_data = mean_summary_data
+      # summary_data = mean_summary_data
     ))
 
   }
