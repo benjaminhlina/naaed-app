@@ -194,7 +194,8 @@ get_selected_tab <- function(input) {
 
 # ---- get summary data frame -----
 
-get_summary_data <- function(con, selected_vars = NULL,
+get_summary_data <- function(con,
+                             selected_vars = NULL,
                              grouping_vars = NULL,
                              debug_sql = FALSE) {
 
