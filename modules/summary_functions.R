@@ -144,10 +144,10 @@ create_summary_data <- function(con,
     }
 
     con_db <- if (inherits(con, "reactive")) con() else con
+    # get selected vars
+    vars <- input_source$y_variable
     selected_vars <- if (inherits(vars, "reactive")) vars() else vars
-    group_vars <- if(is.reactive(input_source$grouping_vars))
-      input_source$grouping_vars() else input_source$grouping_vars
-    req(con_db, selected_vars, group_vars)
+    check_selected_vars(selected_vars = selected_vars)
 
     # ---- acctuat gert data =----
     df <- get_summary_data(con = con_db, selected_vars = selected_vars,
