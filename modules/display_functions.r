@@ -61,6 +61,13 @@ display_hist <- function(data,
 
     nice_label <- convert_nice_name(var)[[1]]
 
+
+    if (nice_label %in% "Length (mm)") {
+      nice_label <- paste(stringr::str_to_title(length_type_val),
+                          convert_nice_name(var)[[1]],
+                          sep = " ")
+    }
+
     # Plot the histogram of the selected variable
     p <- ggplot(data = df, aes(x = !!sym(var))) +
       geom_histogram(fill = "#4DB6AC",
