@@ -159,7 +159,8 @@ create_summary_data <- function(con,
     req(con_db, group_vars)
 
     # ---- acctuat gert data =----
-    df <- get_summary_data(con = con_db, selected_vars = selected_vars,
+    df <- get_summary_data(con = con_db,
+                           selected_vars = selected_vars,
                            grouping_vars = group_vars)
 
     # run query
