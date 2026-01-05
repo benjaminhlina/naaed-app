@@ -30,8 +30,8 @@ display_hist <- function(data,
       cli::cli_alert_info(
         "Unique df$length_type: {paste(unique(df$length_type), collapse=', ')}")
       req(!is.na(length_type_val))
-      req("Length (mm)" %in% names(df))
-      req("length_type" %in% names(df))
+      req("length_mm" %in% colnames(df))
+      req("length_type" %in% colnames(df))
 
       df <- df |>
         filter(length_type == length_type_val) |>
