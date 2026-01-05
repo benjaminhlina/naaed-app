@@ -45,15 +45,6 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
         data = summary_data)
 
     # # ---- Generate Summary Statistics with Dynamic Grouping -----
-    summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
-                                        data = filtered_summary_data)
-    # n_data <- create_n_df(
-    #   con = con,
-    #   main_input = main_input,
-    #   input_source = summary_sidebar_vals,
-    #   tab = "summary_info"
-    #   )
-    #  ----- Render Summary Table -----
     display_table(data = summary_mean_df, output)
       # # ---- Generate Summary Statistics with Dynamic Grouping -----
       summary_mean_df <- create_mean_data(input_source = summary_sidebar_vals,
