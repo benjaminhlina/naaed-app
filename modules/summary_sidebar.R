@@ -83,7 +83,8 @@ summary_sidebar_server <- function(id, con, main_input) {
       req(df)
 
       # get grouping snad numerical values
-      grouping_choices <- get_groups(df)
+      grouping_choices <- get_groups(df) |>
+        sort()
       numeric_choices <- get_numeric_vars(con)
 
       # ---- remove grouping or non needed variblaes ----
