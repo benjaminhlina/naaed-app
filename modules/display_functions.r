@@ -21,7 +21,9 @@ display_hist <- function(data,
         grepl("fork", var, ignore.case = TRUE) ~ "fork",
         grepl("total", var, ignore.case = TRUE) ~ "total",
         grepl("standard", var, ignore.case = TRUE) ~ "standard",
-        TRUE ~ NA_character_
+        grepl("carapace", var, ignore.case = TRUE) ~ "carapace",
+
+        .default = NA
       )
       cli::cli_alert_info("UI var: {var}")
       cli::cli_alert_info("Mapped length_type_val: {length_type_val}")
