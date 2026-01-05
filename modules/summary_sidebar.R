@@ -105,6 +105,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         "site_depth",
         "source_id",
         "user_sample_id",
+        "sample_year",
         "volume")
       )
       numeric_names <- convert_nice_name(numeric_choices)
