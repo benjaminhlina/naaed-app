@@ -13,7 +13,6 @@ create_filtered_data <- function(input_source,
 
     req(df)
 
-
     if (!is.null(waterbody_f) && !"All" %in% waterbody_f) {
       df <- df |>
         filter(waterbody %in% waterbody_f)
@@ -38,7 +37,7 @@ create_mean_data <- function(input_source,
   reactive({
 
     df <- data()
-    req(df)
+
 
     summary_grouping_vars <- input_source$grouping_vars()
     y_vals <- input_source$y_variable()
@@ -137,6 +136,7 @@ create_summary_data <- function(con,
 ) {
   reactive({
 
+    # use for other tabs ---
     if (!is.null(tab)) {
       check_tab_name(tab)
 
