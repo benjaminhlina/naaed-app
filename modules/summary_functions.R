@@ -34,15 +34,13 @@ create_filtered_data <- function(input_source,
 
 # ----- mean summarized table -----
 create_mean_data <- function(input_source,
-                             data,
-                             numeric_cols) {
+                          data) {
   reactive({
 
     df <- data()
     req(df)
 
     summary_grouping_vars <- input_source$grouping_vars()
-    summary_numeric_cols  <- numeric_cols()
     y_vals <- input_source$y_variable()
 
 
