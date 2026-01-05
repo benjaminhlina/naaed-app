@@ -35,11 +35,10 @@ display_hist <- function(data,
 
       df <- df |>
         filter(length_type == length_type_val) |>
-        mutate(`Length (mm)` = suppressWarnings(as.numeric(`Length (mm)`))) |>
-        filter(!is.na(`Length (mm)`))
+        mutate(length_mm = suppressWarnings(as.numeric(length_mm))) |>
+        filter(!is.na(length_mm))
 
-      var <- "Length (mm)"
-      nice_label <- var
+      var <- "length_mm"
 
 
 
