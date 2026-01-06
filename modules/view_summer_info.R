@@ -75,6 +75,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       return(list(
         # summary_data = mean_summary_data
       ))
+      summary_export_df(summary_mean_df)
 
     }, ignoreInit = TRUE)
   })
