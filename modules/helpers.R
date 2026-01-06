@@ -15,7 +15,7 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
 
     # Dynamic label
     var_label <- paste0(stringr::str_to_title(var_type), " Length (mm)")
-    var <- "Length (mm)"
+    var <- "length_mm"
 
   } else {
 
