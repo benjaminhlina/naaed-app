@@ -181,6 +181,7 @@ summary_sidebar_server <- function(id, con, main_input) {
         },
         content = function(file) {
           req(input_source)
+          df <- input_source$summary_df()()
       observe({
         df <- summary_info$summary_data()  # reactive from summary
         output$download_summary <- downloadHandler(
@@ -193,6 +194,7 @@ summary_sidebar_server <- function(id, con, main_input) {
             writexl::write_xlsx(df, file)
           }
         )
+        df <- input_source$summary_df()()
 
         # toggle button
         shinyjs::toggleState(session$ns("download_summary"),
