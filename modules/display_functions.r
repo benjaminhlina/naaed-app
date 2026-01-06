@@ -67,6 +67,11 @@ display_hist <- function(data,
                           sep = " ")
     }
 
+    title_text <- paste0(
+      "Histogram of ", nice_label,
+      "<br><b>Species:</b> ", fix_title_label(species_f),
+      "<br><b>Waterbody:</b> ", fix_title_label(waterbody_f)
+    )
     # Plot the histogram of the selected variable
     p <- ggplot(data = df, aes(x = !!sym(var))) +
       geom_histogram(fill = "#4DB6AC",
