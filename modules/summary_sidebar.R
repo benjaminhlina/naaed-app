@@ -69,24 +69,12 @@ summary_sidebar_server <- function(id, con, main_input) {
                       condition = main_input$tabs == "summary_info")
     })
 
-    sidebar_df <- reactive({
-      # create connection reactively
-      con_db <- if (inherits(con, "reactive")) con() else con
-      req(con_db)
-
-      # get sample_ids and locatiosn
-      df <- get_data(
-        con = con_db
-      )
-      cli::cli_alert_success("df is running")
-      return(df)
-    })
-
-    exclusive_all_observer(input, session, "summary_waterbody_filter")
-    exclusive_all_observer(input, session, "summary_species_filter")
-
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
+      sidebar_df <- get_sidebar_df(con)
+
+      exclusive_all_observer(input, session, "summary_waterbody_filter")
+      exclusive_all_observer(input, session, "summary_species_filter")
       # get df
       df <- sidebar_df()
       req(df)
