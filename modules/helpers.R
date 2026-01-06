@@ -19,6 +19,9 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
 
   } else {
 
+    cli::cli_alert_info("Checking for {.field {var_raw}} in columns...")
+    cli::cli_inform("Available columns: {.val {colnames(df)}}")
+    cli::cli_inform("var_raw %in% colnames(df): {var_raw %in% colnames(df)}")
     req(var_raw %in% colnames(df))
     # Normal variable
     var <- var_raw
