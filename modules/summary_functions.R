@@ -69,13 +69,18 @@ create_mean_data <- function(input_source,
 
     }
 
+
     summary_list <- lapply(y_vals, function(v) {
       mapped_var <- fix_var_generic(df = df, var_raw = v,
                                     get_nice_name = convert_nice_name)
+
+
       df_filtered <- mapped_var$df
       var_to_summarise <- mapped_var$var
       var_label <- mapped_var$var_label
 
+      cli::cli_inform("var_to_summarise: {.feild {var_to_summarise}}")
+      cli::cli_inform("Available columns: {.val {colnames(df_filtered)}}")
 
       # Check if variable exists after filtering
       if (!var_to_summarise %in% colnames(df_filtered)) {
