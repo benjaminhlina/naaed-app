@@ -25,10 +25,9 @@ display_hist <- function(data,
 
         .default = NA
       )
-      cli::cli_alert_info("UI var: {var}")
-      cli::cli_alert_info("Mapped length_type_val: {length_type_val}")
-      cli::cli_alert_info(
-        "Unique df$length_type: {paste(unique(df$length_type), collapse=', ')}")
+
+      check_length_ui(df, var, length_type_val)
+
       req(!is.na(length_type_val))
       req("length_mm" %in% colnames(df))
       req("length_type" %in% colnames(df))
