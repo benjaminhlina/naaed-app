@@ -25,6 +25,7 @@ credentials <- data.frame(
   password = Sys.getenv("SHINY_PASSWORD"),
   stringsAsFactors = FALSE
 )
+app_version <- "0.1.0"
 # ---- create ui ----
 
 ui <- dashboardPage(
