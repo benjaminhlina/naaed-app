@@ -76,33 +76,37 @@ check_tab_name <- function(tab) {
 }
 
 # ---- ehck if summary data is being triggered ----
-check_summary_data <- function(obj) {
+check_summary_data <- function(df, name = deparse(substitute(df))) {
 
-  observe({
-    obj_name <- deparse(substitute(obj))
-    # tell me what is being triggered
-    cli::cli_alert_success("{obj_name} triggered")
+  cli::cli_alert_success("{name} triggered")
 
-    # if try is false
-    df <- try(summary_data(),
-              silent = TRUE)
+  # Lazy dbplyr table → do NOT validate rows
+  if (inherits(df, "tbl_lazy")) {
+    cli::cli_alert_info("{name} is lazy (query constructed)")
+    return(invisible(TRUE))
+  }
 
-    if (inherits(df, "try-error")) {
-      cli::cli_alert_danger("{obj_name}  failed completely")
-    } else if ("Message" %in% names(df)) {
-      cli::cli_alert_danger(
-        "get_summary_data() returned error message: {.val {df$Message[1]}}")
-    } else {
-      cli::cli_alert_success(
-        "{obj_name} rows: {.val {nrow(df)}}, cols: {.val {ncol(df)}}")
-      cli::cli_alert_info("Column names:")
+  # Try/catch safety
+  if (inherits(df, "try-error")) {
+    cli::cli_alert_danger("{name} failed completely")
+    return(invisible(FALSE))
+  }
 
-    }
-    # cli::cli_ul(names(df))  # Bulleted list
-    # # or
-    cli::cli_text("{.field {sort(names(df))}}")  # Inline with field styling
-  })
+  # Empty data
+  if (nrow(df) == 0) {
+    cli::cli_alert_warning("{name} has 0 rows")
+    return(invisible(FALSE))
+  }
+
+  cli::cli_alert_success(
+    "{name} rows: {.val {nrow(df)}}, cols: {.val {ncol(df)}}"
+  )
+
+  cli::cli_text("{.field {sort(names(df))}}")
+
+  invisible(TRUE)
 }
+
 
 check_selected_vars <- function(selected_vars) {
   cli::cli_ul(c(
