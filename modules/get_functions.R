@@ -191,6 +191,21 @@ get_selected_tab <- function(input) {
   out
 }
 
+# ----- get sidebr df -----
+get_sidebar_df <- function(con) {
+  reactive({
+  # create connection reactively
+  con_db <- if (inherits(con, "reactive")) con() else con
+  req(con_db)
+
+  # get sample_ids and locatiosn
+  df <- get_data(
+    con = con_db
+  )
+  cli::cli_alert_success("df is running")
+  return(df)
+})
+}
 
 # ---- get summary data frame -----
 
