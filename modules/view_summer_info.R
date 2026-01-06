@@ -38,6 +38,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
 
     # ---- namespaces -----
     ns <- session$ns
+    summary_export_df <- reactiveVal(NULL)
     # ----- first create summary data -----
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "summary_info")
