@@ -173,7 +173,14 @@ summary_sidebar_server <- function(id, con, main_input) {
 
     }, ignoreInit = TRUE)
     # make this into a function that sidebar exports out
-    register_summary <- function(summary_info) {
+    register_summary <- function(input_source) {
+
+      output$download_summary <- downloadHandler(
+        filename = function() {
+          paste0("glatar_summary_tbl_", Sys.Date(), ".xlsx")
+        },
+        content = function(file) {
+          req(input_source)
       observe({
         df <- summary_info$summary_data()  # reactive from summary
         output$download_summary <- downloadHandler(
