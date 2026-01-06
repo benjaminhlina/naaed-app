@@ -182,18 +182,14 @@ summary_sidebar_server <- function(id, con, main_input) {
         content = function(file) {
           req(input_source)
           df <- input_source$summary_df()()
+          req(df)
+          writexl::write_xlsx(df, file)
+        }
+      )
+
       observe({
-        df <- summary_info$summary_data()  # reactive from summary
-        output$download_summary <- downloadHandler(
-          filename = function() {
-            tbl <- get_selected_table(main_input)
-            paste0(tbl, "_summary_", Sys.Date(), ".xlsx")
-          },
-          content = function(file) {
-            req(df)
-            writexl::write_xlsx(df, file)
-          }
-        )
+        req(input$tabs == "summary_info")
+        req(input_source)
         df <- input_source$summary_df()()
 
         # toggle button
