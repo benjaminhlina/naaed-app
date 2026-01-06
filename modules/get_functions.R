@@ -229,19 +229,22 @@ get_summary_data <- function(con,
     vars_for_select <- gsub("^length_mm__(fork|total|standard)$", "length_mm",
                             vars_for_select)
     vars_for_select <- unique(vars_for_select)
+
     if (is.null(grouping_vars)) {
       # Select only requested columns (plus keys if needed)
       df <- df |>
         select(waterbody,
                scientific_name,
-               any_of(selected_vars))
+               length_type,
+               any_of(vars_for_select))
       # }
     } else {
       df <- df |>
         select(waterbody,
                scientific_name,
+               length_type,
                any_of(grouping_vars),
-               any_of(selected_vars))
+               any_of(vars_for_select))
     }
   } else {
     df
