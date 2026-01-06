@@ -110,18 +110,11 @@ create_mean_data <- function(input_source,
     }, summary_list,
     init = base_df)
 
+    # run query x
     grouped_summary_df <- grouped_summary_df |>
       collect() |>
       arrange(across(all_of(summary_grouping_vars))) |>
       mutate(across(where(is.numeric), ~ round(.x, 2)))
-
-    # can use  init = base_df
-
-
-    # run query x
-    # grouped_summary_df <- grouped_summary_df |>
-    #   collect() |>
-    #   mutate(across(where(is.numeric), ~ round(.x, 2)))
 
     return(grouped_summary_df)
 
