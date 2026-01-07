@@ -148,6 +148,34 @@ get_length_vars <- function(df) {
   setNames(vars, labels)  # names = labels, values = synthetic variable codes
 }
 
+get_var_types <- function(df, var) {
+
+  var_types <- df |>
+    distinct(.data[[var]]) |>
+    arrange(.data[[var]]) |>
+    dplyr::pull(.data[[var]])
+  # Only keep non-NA length types
+  var_types <- var_types[!is.na(var_types)]
+
+  # Create synthetic variable names and labels
+  if (any(var_types %in% c("fork", "standard", "total"))) {
+    vars <- paste0("length_mm__", var_types)
+    labels <- paste0(stringr::str_to_title(var_types), " Length (mm)")
+  }
+  if (any(var_types %in% c(
+    "Joules/g dry weight",
+    "Joules/g wet weight"
+  ))) {
+
+    # cleaned_var_types <- gsub("/", " ", var_types)
+    # cleaned_var_types <- gsub("\\s+", "_", cleaned_var_types)
+
+    vars <- paste0("energy_units__", var_types)
+    labels <- paste0("Energy Density (", var_types, ")")
+  }
+
+  setNames(vars, labels)  # names = labels, values = synthetic variable codes
+}
 # ----- get nice names -----
 convert_nice_name <- function(cols, lookup = nice_name_lookup) {
   unname(sapply(cols, function(col) {
