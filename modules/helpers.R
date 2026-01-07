@@ -47,19 +47,20 @@ fix_var_generic <- function(df, var_raw, get_nice_name) {
 
 }
 
+# ---- fix tittle label -----
 fix_title_label <-  function(x, max = NULL) {
-    if (is.null(max)) {
-      max <- 4
-    }
-    if (length(x) <= max) {
-      paste(x, collapse = ", ")
-    } else {
-      paste0(
-        paste(head(x, max), collapse = ", "),
-        ", <br>… (", length(x) - max, " more)"
-      )
-    }
+  if (is.null(max)) {
+    max <- 4
   }
+  if (length(x) <= max) {
+    paste(x, collapse = ", ")
+  } else {
+    paste0(
+      paste(head(x, max), collapse = ", "),
+      ", <br>… (", length(x) - max, " more)"
+    )
+  }
+}
 # ----- make scater choices -----
 make_scatter_choices <- function(df, numeric_choices) {
 
