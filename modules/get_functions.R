@@ -222,17 +222,19 @@ get_selected_tab <- function(input) {
 # ----- get sidebr df -----
 get_sidebar_df <- function(con) {
   reactive({
-  # create connection reactively
-  con_db <- if (inherits(con, "reactive")) con() else con
-  req(con_db)
+    # create connection reactively
+    con_db <- if (inherits(con, "reactive")) con() else con
+    req(con_db)
 
-  # get sample_ids and locatiosn
-  df <- get_data(
-    con = con_db
-  )
-  cli::cli_alert_success("df is running")
-  return(df)
-})
+    # get sample_ids and locatiosn
+    df <- get_data(
+      con = con_db
+    ) |>
+      left_join(tbl(con, "tbl_calorimetry"))
+
+    cli::cli_alert_success("sidebar base tbl has completed")
+    return(df)
+  })
 }
 
 # ---- get summary data frame -----
