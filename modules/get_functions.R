@@ -258,7 +258,10 @@ get_summary_data <- function(con,
 
   # Always start from samples
   # --grab location
-  df <- get_data(con)
+  df <- get_data(con) |>
+    left_join(
+      tbl(con, "tbl_calorimetry")
+    )
 
   if (!is.null(selected_vars) && length(selected_vars) > 0) {
     needed_tables <- setdiff(get_tables_needed(con = con,
