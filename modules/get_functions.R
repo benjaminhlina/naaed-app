@@ -176,6 +176,7 @@ get_var_types <- function(df, var) {
 
   setNames(vars, labels)  # names = labels, values = synthetic variable codes
 }
+
 # ----- get nice names -----
 convert_nice_name <- function(cols, lookup = nice_name_lookup) {
   unname(sapply(cols, function(col) {
@@ -263,6 +264,8 @@ get_summary_data <- function(con,
       tbl(con, "tbl_calorimetry")
     )
 
+  # ----- grab seelected vars ----
+
   if (!is.null(selected_vars) && length(selected_vars) > 0) {
     needed_tables <- setdiff(get_tables_needed(con = con,
                                                vars = selected_vars),
@@ -273,6 +276,7 @@ get_summary_data <- function(con,
         reduce(.init = df, ~ get_join_table(.x, .y, con))
     }
 
+    # --- get selected vars -----
     vars_for_select <- selected_vars
 
 
@@ -283,6 +287,7 @@ get_summary_data <- function(con,
             vars_for_select) ~ "energy_measurement",
       .default = vars_for_select
     )
+
     vars_for_select <- unique(vars_for_select)
 
     if (is.null(grouping_vars)) {
