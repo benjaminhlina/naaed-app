@@ -291,6 +291,7 @@ get_summary_data <- function(con,
         select(waterbody,
                scientific_name,
                length_type,
+               energy_units,
                any_of(vars_for_select))
       # }
     } else {
@@ -298,6 +299,7 @@ get_summary_data <- function(con,
         select(waterbody,
                scientific_name,
                length_type,
+               energy_units,
                any_of(grouping_vars),
                any_of(vars_for_select))
     }
