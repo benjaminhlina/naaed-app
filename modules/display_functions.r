@@ -48,6 +48,35 @@ display_hist <- function(data,
       check_hist_vars(df, var, ba = "after")
       var <- "length_mm"
 
+    } else if (is_energy) {
+
+      # Convert UI label to the length_type in the data
+      energy_type_val <- case_when(
+        grepl("Joules/g dry weight", var,
+              ignore.case = TRUE) ~ "Joules/g dry weight",
+        grepl("Joules/g wet weight", var,
+              ignore.case = TRUE) ~ "Joules/g wet weight",
+
+        .default = NA
+      )
+
+      # check_hist_ui(df, var, type_val = energy_type_val)
+
+      req(!is.na(energy_type_val))
+      req("energy_measurement" %in% colnames(df))
+      req("energy_units" %in% colnames(df))
+
+      check_hist_vars(df, var = "energy_measurement", ba = "before")
+
+      df <- df |>
+        filter(energy_units == energy_type_val) |>
+        mutate(energy_measurement = suppressWarnings(
+          as.numeric(energy_measurement))) |>
+        filter(!is.na(energy_measurement))
+      check_hist_vars(df, var, ba = "after")
+
+      var <- "energy_measurement"
+
     } else {
 
       # ---- NON-LENGTH VARIABLES ----
