@@ -64,53 +64,21 @@ get_good_groups <- function(df) {
     "site_depth"
   )
 
-  # good_groups <- c(
-  #   "PI Name",
-  #   "Month",
-  #   "Sample Year",
-  #   "Common Name",
-  #   "Scientific Name",
-  #   "Genus",
-  #   "Tribe",
-  #   "Subfamily",
-  #   "Family",
-  #   "Superfamily",
-  #   "Suborder",
-  #   "Order",
-  #   "Superorder",
-  #   "Class",
-  #   "Superclass",
-  #   "TSN code",
-  #   "Sex",
-  #   "Life Stage",
-  #   "Wild Lab",
-  #   "Age (yrs)",
-  #   "Composite",
-  #   "Tissue Type",
-  #   "Sampling Procedure",
-  #   "Treatment Description",
-  #   "Waterbody",
-  #   "Area",
-  #   "Site",
-  #   "Site Depth (m)"
-  # )
-
+  # get column names
   cols <- dplyr::tbl_vars(df) |>
     as.character()
 
-  # convert_names <- convert_nice_name(cols)
 
+    # # Return only those that are in good_groups
+    groups <- sort(intersect(cols, good_groups))
 
-  # # Return only those that are in good_groups
-  groups <- sort(intersect(cols, good_groups))
-
-  cli::cli_alert_info("Converted names: {.val {cols}}"
-  )
+    cli::cli_alert_info("Converted names: {.val {cols}}"
+    )
   return(groups)
 }
 
 
-get_groups <- function(df, debug_sql = FALSE) {
+get_groups <- function(df) {
   req(df)
 
   groups <- get_good_groups(df)
