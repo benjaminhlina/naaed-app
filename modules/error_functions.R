@@ -37,6 +37,19 @@ check_hist_ui <- function(
   cli::cli_alert_info(
     "Unique df$type_val: {paste(unique(df$col), collapse=', ')}")
 }
+
+check_hist_vars <- function(df,
+                            var,
+                            ba
+                            ) {
+  if (ba == "before") {
+    cli::cli_alert_info("Variable: {.var {var}}")
+    cli::cli_alert_info("Rows before filtering: {.val {nrow(df)}}")
+    cli::cli_alert_info("Sample values: {.val {paste(head(sort(unique(df[[var]]))),
+                        collapse = ', ')}}")
+  }
+  if (ba == "after") {
+    cli::cli_alert_success("Rows after filtering: {.val {nrow(df)}}")}
 }
 
 # ----- chekc mean_data ------
