@@ -46,7 +46,8 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       summary_data <- create_summary_data(con = con,
                                           main_input = main_input,
                                           input_source = summary_sidebar_vals,
-                                          tab = "summary_info")
+                                          tab = "summary_info",
+                                          var_field = "y_variable")
       # Cehck if summary is being triggered
 
       # filtered summary by waterbody and species
