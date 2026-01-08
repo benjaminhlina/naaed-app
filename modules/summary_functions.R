@@ -127,6 +127,7 @@ create_mean_data <- function(input_source,
 create_summary_data <- function(con,
                                 main_input,
                                 input_source,
+                                var_field,
                                 tab = NULL
 ) {
   reactive({
@@ -147,8 +148,10 @@ create_summary_data <- function(con,
     selected_vars <- if (inherits(vars, "reactive")) vars() else vars
     check_selected_vars(selected_vars = selected_vars)
     # vars <- input_source$y_variable
+    vars <- input_source[[var_field]]
     #
     # selected_vars <- if (inherits(vars, "reactive")) vars() else vars
+    selected_vars <- if (inherits(vars, "reactive")) vars() else vars
 
     # Get y_variable
     y_vars <- input_source$y_variable
@@ -162,7 +165,7 @@ create_summary_data <- function(con,
     all_vars <- unique(c(y_selected, hist_selected))
 
 
-    check_selected_vars(selected_vars = all_vars)
+    check_selected_vars(selected_vars = selected_vars)
     # get groups
 
     gv <- input_source$grouping_vars
@@ -172,7 +175,7 @@ create_summary_data <- function(con,
 
     # ---- acctuat gert data =----
     df <- get_summary_data(con = con_db,
-                           selected_vars = all_vars,
+                           selected_vars = selected_vars,
                            grouping_vars = group_vars)
 
     # run query
