@@ -107,6 +107,10 @@ display_hist <- function(data,
                           convert_nice_name(var)[[1]],
                           sep = " ")
     }
+    } else if (nice_label %in% "Energy Density") {
+        nice_label <- paste(convert_nice_name(var)[[1]], " (",
+                            energy_type_val, ")", sep = "")
+      }
 
     title_text <- paste0(
       "Histogram of ", nice_label,
