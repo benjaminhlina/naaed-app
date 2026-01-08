@@ -39,11 +39,13 @@ display_hist <- function(data,
       req("length_mm" %in% colnames(df))
       req("length_type" %in% colnames(df))
 
+      check_hist_vars(df, var = "length_mm", ba = "before")
       df <- df |>
         filter(length_type == length_type_val) |>
         mutate(length_mm = suppressWarnings(as.numeric(length_mm))) |>
         filter(!is.na(length_mm))
 
+      check_hist_vars(df, var, ba = "after")
       var <- "length_mm"
 
     } else {
