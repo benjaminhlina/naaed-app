@@ -143,26 +143,21 @@ create_summary_data <- function(con,
     con_db <- if (inherits(con, "reactive")) con() else con
 
     # get selected vars
-    vars <- input_source$y_variable
 
-    selected_vars <- if (inherits(vars, "reactive")) vars() else vars
-    check_selected_vars(selected_vars = selected_vars)
-    # vars <- input_source$y_variable
     vars <- input_source[[var_field]]
     #
-    # selected_vars <- if (inherits(vars, "reactive")) vars() else vars
     selected_vars <- if (inherits(vars, "reactive")) vars() else vars
 
     # Get y_variable
-    y_vars <- input_source$y_variable
-    y_selected <- if (inherits(y_vars, "reactive")) y_vars() else y_vars
-
-    # Get hist_vars
-    hist_vars <- input_source$hist_vars
-    hist_selected <- if (inherits(hist_vars, "reactive")) hist_vars() else hist_vars
-
-    # Combine both sets of variables (removing duplicates)
-    all_vars <- unique(c(y_selected, hist_selected))
+    # y_vars <- input_source$y_variable
+    # y_selected <- if (inherits(y_vars, "reactive")) y_vars() else y_vars
+    #
+    # # Get hist_vars
+    # hist_vars <- input_source$hist_vars
+    # hist_selected <- if (inherits(hist_vars, "reactive")) hist_vars() else hist_vars
+    #
+    # # Combine both sets of variables (removing duplicates)
+    # all_vars <- unique(c(y_selected, hist_selected))
 
 
     check_selected_vars(selected_vars = selected_vars)
