@@ -68,10 +68,16 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
           dplyr::rename_with(~ convert_nice_name(.x))
 
       })
+
+
+      # ---- check summary_data
+      observeEvent(summary_mean_df_names(), {
+        req(summary_mean_df_names())
+        check_summary_data(summary_mean_df_names())
       }, ignoreInit = TRUE)
 
       #  ----- Render Summary Table -----
-      display_table(data = summary_mean_df, output)
+      display_table(data = summary_mean_df_names, output)
 
       # ---- create summary dats for histogram -----
       summary_data_hist <- create_summary_data(con = con,
@@ -92,7 +98,7 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
                    output)
 
       # ----- grab reactive summary as recative val- ----
-      summary_export_df(summary_mean_df)
+      summary_export_df(summary_mean_df_names)
 
     }, ignoreInit = TRUE)
 
