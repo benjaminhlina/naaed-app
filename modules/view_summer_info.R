@@ -68,6 +68,13 @@ summary_info_server <- function(id, con, main_input, summary_sidebar_vals) {
       #  ----- Render Summary Table -----
       display_table(data = summary_mean_df, output)
 
+      # ---- create summary dats for histogram -----
+      summary_data_hist <- create_summary_data(con = con,
+                                          main_input = main_input,
+                                          input_source = summary_sidebar_vals,
+                                          tab = "summary_info",
+                                          var_field = "hist_vars")
+      # Cehck if summary is being triggered
       # # ---- add in histogram ----
       display_hist(data = filtered_summary_data,
                    input_source = summary_sidebar_vals,
