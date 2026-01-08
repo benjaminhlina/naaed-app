@@ -10,6 +10,9 @@ display_hist <- function(data,
     # Ensure the selected column exists in the raw data
     var <- input_source$hist_vars()
 
+    cli::cli_alert_info("selected var initially is: {.field {var}}")
+
+    cli::cli_alert_info("colnames is present: {.val {any(colnames(df) %in% var)}}")
     # detect length-type UI choices
     is_length <- grepl("length_mm", var, ignore.case = TRUE) &&
       !var %in% colnames(df)
