@@ -53,7 +53,7 @@ create_mean_data <- function(input_source,
       summarise(n = n()) |>
       ungroup()
 
-      # if selected_vars is null just produce base query -----
+    # if selected_vars is null just produce base query -----
     if (is.null(y_vals) || length(y_vals) == 0) {
       # Return just the grouped counts
       cli::cli_inform("No y_variable selected → returning grouped n only")
@@ -152,6 +152,10 @@ create_summary_data <- function(con,
       selected_vars <- c(selected_vars, vars_val)
     }
     selected_vars <- unique(selected_vars[!is.null(selected_vars)])
+    # vars <- input_source[[var_field]]
+    # # Get y_variable
+    # selected_vars <- if (inherits(vars, "reactive")) vars() else vars
+
     if (length(selected_vars) > 1) {
       lapply(selected_vars, check_selected_vars)
     } else {
