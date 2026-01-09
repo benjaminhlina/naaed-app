@@ -61,8 +61,6 @@ ENV RENV_CONFIG_PAK_ENABLED=TRUE
 ENV RENV_CONFIG_REPOS_OVERRIDE=https://cloud.r-project.org
 RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 
-
-
 # Copy app files
 COPY app.R app.R
 COPY www/ www/
