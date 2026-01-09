@@ -29,18 +29,22 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
                                           "x_choices",
                                           "y_choices"
 
+                                        ))
+    cli::cli_alert_info("scatter_data is: {.val {class(scatter_data)}}")
+    check_summary_data(scatter_data())
 
-    check_summary_data(scatter_data)
 
-    numeric_cols <- create_numeric_col(data = scatter_data)
 
     filtered_scatter_data <- create_filtered_data(
       input_source = scatter_sidebar_vals,
       data = scatter_data)
-
+    #
     display_scatter_plot(data = filtered_scatter_data,
                          input_source = scatter_sidebar_vals,
                          output)
+  },
+  ignoreInit = TRUE
+  )
   }
   )
 }
