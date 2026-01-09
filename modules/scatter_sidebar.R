@@ -60,19 +60,81 @@ scatter_sidebar_server <- function(id, con, main_input) {
                       condition = main_input$tabs == "scatter_plot")
     })
 
-    observeEvent(input$scatter_plots, {
-      req(input$scatter_plots)
+    sidebar_df <- get_sidebar_df(con)
 
-      df <- get_summary_data(con, input$scatter_plots)
-      grouping_choices <- get_good_groups(df)
-      numeric_choices <- get_numeric_cols(df)
+    exclusive_all_observer(input, session, "summary_waterbody_filter")
+    exclusive_all_observer(input, session, "summary_species_filter")
+    observeEvent(input$scatter_plots, {
+      # req(input$scatter_plots)
+      # req(main_input$tabs == "scatter_plots")
+      # sidebar_df <- get_sidebar_df(con)
+      #
+      # exclusive_all_observer(input, session, "summary_waterbody_filter")
+      # exclusive_all_observer(input, session, "summary_species_filter")
+      # get df
+      df <- sidebar_df()
       req(df)
 
-      waterbody_choices <- unique(df$Waterbody) |>
+      # get grouping snad numerical values
+      grouping_choices <- get_groups(df) |>
         sort()
 
-      species_choices <- unique(df$`Common Name`) |>
-        sort()
+      grouping_choices <- setNames(grouping_choices,
+                                   convert_nice_name(grouping_choices))
+
+      numeric_choices <- get_numeric_vars(con)
+
+
+
+      numeric_choices <- setdiff(numeric_choices, c(
+        "calorimeter_conversion_factor",
+        "issue",
+        "length_mm",
+        "energy_measurment",
+        "latitude",
+        "longitude",
+        "month",
+        "publication_year",
+        "site",
+        "site_depth",
+        "source_id",
+        "user_sample_id",
+        "sample_year",
+        "volume")
+      )
+      numeric_names <- convert_nice_name(numeric_choices)
+      # get length variables
+      length_vars <- get_var_types(df, var = "length_type")
+      energy_vars <- get_var_types(df, var = "energy_units")
+
+      # create summary choices
+      summary_choices <- sort(c(setNames(numeric_choices,
+                                         numeric_names),
+                                length_vars, energy_vars))
+
+      waterbody_choices <- df |>
+        distinct(waterbody) |>
+        arrange(waterbody) |>
+        pull(waterbody)
+
+      # species
+      species_choices <-  df |>
+        distinct(scientific_name) |>
+        arrange(scientific_name) |>
+        pull(scientific_name)
+
+      n_wb <- length(waterbody_choices)
+      n_sp <- length(species_choices)
+      grp <- paste(grouping_choices, collapse = ', ')
+      nc <- paste(summary_choices, collapse = ', ')
+      # check_dropdowns()
+      cli::cli_alert_success("Updating dropdowns")
+      cli::cli_ul(c(
+        "Waterbody unique values: {.val {n_wb}}",
+        "Species unique values: {.val {n_sp}}",
+        "Grouping choices: {.val {grp}}",
+        "Numeric choices: {.val {nc}}"
+      ))
       #       # Grouping Variables: Allow dynamic selection
       updateSelectInput(session, "scatter_grouping_vars",
                         choices = grouping_choices,
