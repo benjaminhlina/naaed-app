@@ -152,6 +152,11 @@ create_summary_data <- function(con,
       selected_vars <- c(selected_vars, vars_val)
     }
     selected_vars <- unique(selected_vars[!is.null(selected_vars)])
+    if (length(selected_vars) > 1) {
+      lapply(selected_vars, check_selected_vars)
+    } else {
+      check_selected_vars(selected_vars = selected_vars)
+    }
     # get groups
 
     gv <- input_source$grouping_vars
