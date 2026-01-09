@@ -3,7 +3,7 @@ home_tab_ui <- function(id) {
 
   shinydashboard::tabItem(
     tabName = "home",
-    h2("Welcome to the Aquatic Tissue Library for Analyses & Synthesis (ATLAS)"),
+    h2("Welcome to the Great Lakes Aquatic Tissue Analysis Repository (GLATAR)"),
     p("This toolbox allows you to explore, visualize, and manage
     energy density, proximate composition and stable isotope data
     related to for fish and aquatic invertabrates throughout North America."),
@@ -28,7 +28,7 @@ home_tab_ui <- function(id) {
         width = 6,
         status = "info",
         solidHeader = TRUE,
-        shiny::p("The Aquatic Tissue Library for Analyses & Synthesis (ATLAS)
+        shiny::p("The Great Lakes Aquatic Tissue Analysis Repository (GLATAR)
           contains data on energy density, proximate composition,
           and stable isotopes for fish and aquatic invertebrats
           collected across North America.
@@ -40,8 +40,8 @@ home_tab_ui <- function(id) {
             tags$span("Data entry templates can be found by "),
             tags$a(
               "clicking here",
-              href = "data-entry-template/ATLAS_data_entry_template_v12.xlsx",
-              download = "ATLAS_data_entry_template_v12.xlsx"
+              href = "data-entry-template/GLATAR_data_entry_template_v12.xlsx",
+              download = "GLATAR_data_entry_template_v12.xlsx"
             ),
             tags$span(" and in the documentation pane.")
           ),
