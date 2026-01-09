@@ -117,22 +117,29 @@ server <- function(input, output, session) {
 
   # ---- get map -----
   view_map_server("view_map", con)
-  # ----- summary table -----
+  # ----- summary pane -----
+  # ----- summary dropdowns -----
   summary_sidebar_vals <- summary_sidebar_server("summary_sidebar", con,
                                                  main_input = input)
 
+  # ----- view summary ------
   summary_info <- summary_info_server("summary_info",
-    con,
-    main_input = input,
-    summary_sidebar_vals = summary_sidebar_vals)
+                                      con,
+                                      main_input = input,
+                                      summary_sidebar_vals = summary_sidebar_vals)
+
+  # make the download button run
 
   summary_sidebar_vals$register_summary(summary_info)
 
+
   # ---- scatter plot -----
+  # ---- scatter plot dropdowns -----
   scatter_sidebar_vals <- scatter_sidebar_server("scatter_sidebar",
                                                  con,
                                                  main_input = input)
 
+  # ---- create and view scatter plot -----
   scatter_plot <- scatter_plot_server(
     "scatter_plot",
     con,
