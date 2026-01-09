@@ -90,7 +90,7 @@ scatter_sidebar_server <- function(id, con, main_input) {
         "calorimeter_conversion_factor",
         "issue",
         "length_mm",
-        "energy_measurment",
+        "energy_measurement",
         "latitude",
         "longitude",
         "month",
