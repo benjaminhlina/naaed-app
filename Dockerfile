@@ -54,7 +54,7 @@ COPY renv/ renv/
 # ---- Restore R packages ----
 ENV RENV_PATHS_CACHE=/renv/cache
 ENV RENV_CONFIG_PAK_ENABLED=TRUE
-RUN R -e "renv::restore()"
+RUN R -e "options(renv.verbose = TRUE); renv::restore()"
 
 
 
