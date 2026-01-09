@@ -54,7 +54,8 @@ COPY renv/ renv/
 # ---- Restore R packages ----
 ENV RENV_PATHS_CACHE=/renv/cache
 ENV RENV_CONFIG_PAK_ENABLED=TRUE
-RUN R -e "options(renv.verbose = TRUE); renv::restore()"
+ENV RENV_CONFIG_REPOS_OVERRIDE=https://cloud.r-project.org
+RUN R -e "options(renv.verbose = TRUE); renv::restore(prompt = FALSE)"
 
 
 
