@@ -34,6 +34,7 @@ ui <- dashboardPage(
                   titleWidth = 500),
   # ---- sidebar -----
   dashboardSidebar(
+    width = 275,
     sidebarMenu(
       id = "tabs",
       menuItem("Home", tabName = "home", icon = icon("home")),
