@@ -19,8 +19,10 @@ RUN apt-get update && apt-get install -y \
     libcairo2-dev \
     libcurl4-openssl-dev \
     libfreetype6-dev \
+    libfribidi-dev \
     libgeos-dev \
     libgdal-dev \
+    libharfbuzz-dev \
     libicu-dev \
     libjpeg-dev \
     libmysqlclient-dev \
