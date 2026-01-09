@@ -184,7 +184,7 @@ get_sidebar_df <- function(con) {
     df <- get_data(
       con = con_db
     ) |>
-      left_join(tbl(con, "tbl_calorimetry") |>
+      left_join(tbl(con_db, "tbl_calorimetry") |>
                   select(sample_id, energy_units))
 
     cli::cli_alert_success("sidebar base tbl has completed")
