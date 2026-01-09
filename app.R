@@ -20,12 +20,12 @@
 
 lapply(list.files("modules", full.names = TRUE), source, local = FALSE)
 
+app_version <- "0.1.0"
 credentials <- data.frame(
   user = Sys.getenv("SHINY_USER"),
   password = Sys.getenv("SHINY_PASSWORD"),
   stringsAsFactors = FALSE
 )
-app_version <- "0.1.0"
 # ---- create ui ----
 
 ui <- dashboardPage(
