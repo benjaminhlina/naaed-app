@@ -45,12 +45,11 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
                                         ))
 
 
-    filtered_scatter_data <- create_filtered_data(
     cli::cli_alert_warning("Class of scatter_data: {.val {class(scatter_data)}}")
+    # ---- allow filtering -----
+    filtered_summary_data <- create_filtered_data(
       input_source = scatter_sidebar_vals,
       data = scatter_data)
-    #
-    display_scatter_plot(data = filtered_scatter_data,
                          input_source = scatter_sidebar_vals,
                          output)
   },
