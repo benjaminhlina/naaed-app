@@ -22,9 +22,7 @@ create_filtered_data <- function(input_source,
       df <- df |>
         filter(scientific_name %in% species_f)
     }
-    # run query x
-    # df <- df |>
-    #   collect()
+
     return(df)
   })
 }
