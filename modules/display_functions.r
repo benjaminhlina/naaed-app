@@ -258,20 +258,20 @@ display_scatter_plot <- function(data,
         title = title_text
       )
 
-    if (scatter_grouping_vars != "None") {
+    if (n_groups >= 1) {
       p <- p +
         geom_point(
-          aes(fill = !!sym(scatter_grouping_vars)),
+          aes(fill = !!sym(scatter_grouping_vars[1])),
           alpha = 0.7,
           size = 5,
           shape = 21
-        ) +
-        scale_fill_viridis_d(name = scatter_grouping_vars,
-                             option = "B",
-                             begin = 0.1,
-                             end = 0.9,
-                             alpha = 0.5
         )
+        # scale_fill_viridis_d(name = scatter_grouping_vars[1],
+        #                      option = "B",
+        #                      begin = 0.1,
+        #                      end = 0.9,
+        #                      alpha = 0.5
+        # )
     } else {
       p <- p + geom_point(
         alpha = 0.7,
@@ -279,6 +279,24 @@ display_scatter_plot <- function(data,
         shape = 21
       )
     }
+    # ---- Faceting logic ----
+    if (n_groups %in% 2) {
+      # Second variable → facet_wrap
+      p <- p +
+        facet_wrap(
+          vars(!!sym(scatter_grouping_vars[2]))
+        )
+    }
+
+    if (n_groups %in% 3) {
+      # Second + third → facet_grid
+      p <- p +
+        facet_grid(
+          rows = vars(!!sym(scatter_grouping_vars[2])),
+          cols = vars(!!sym(scatter_grouping_vars[3]))
+        )
+    }
+
     return(p)
   })
 }
