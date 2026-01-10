@@ -230,6 +230,12 @@ display_scatter_plot <- function(data,
     )
       x = !!sym(x_var),
       y = !!sym(y_var))) +
+      scale_fill_viridis_d(name = scatter_grouping_vars[1],
+                           option = "B",
+                           begin = 0.1,
+                           end = 0.9,
+                           alpha = 0.5
+      ) +
       theme_bw(base_size = 15) +
       theme(
         panel.grid = element_blank(),
