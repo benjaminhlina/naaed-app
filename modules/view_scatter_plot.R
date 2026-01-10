@@ -31,7 +31,7 @@ scatter_plot_server <- function(id, con, main_input, scatter_sidebar_vals) {
     # ---- namespaces
     ns <- session$ns
 
-    scatter_data <- reactiveVal(NULL)
+    # scatter_data <- reactiveVal(NULL)
     observeEvent(main_input$tabs, {
       req(main_input$tabs == "scatter_plot")
     # Make scatter raw data
