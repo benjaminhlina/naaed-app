@@ -154,15 +154,15 @@ display_scatter_plot <- function(data,
     #     # Get raw data (not summarized)
 
     df <- data()
+    cli::cli_alert_warning("df class: {.val {class(df)}}")
+    # get the basic grouping
+    scatter_grouping_vars <- input_source$grouping_vars()
     # get the x var
 
     x_var_raw <- input_source$x_choices()
 
-
     # get the y var
     y_var_raw <- input_source$y_choices()
-    # get the basic grouping
-    scatter_grouping_vars <- input_source$grouping_vars()
 
     # use generic function to filter and grab the correct for length only
     fix_x <- fix_var_generic(
