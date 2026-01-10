@@ -66,8 +66,8 @@ scatter_sidebar_server <- function(id, con, main_input) {
       req(main_input$tabs == "scatter_plot")
       sidebar_df <- get_sidebar_df(con)
 
-      exclusive_all_observer(input, session, "summary_waterbody_filter")
-      exclusive_all_observer(input, session, "summary_species_filter")
+      exclusive_all_observer(input, session, "scatter_waterbody_filter")
+      exclusive_all_observer(input, session, "scatter_species_filter")
       # get df
       df <- sidebar_df()
       req(df)
